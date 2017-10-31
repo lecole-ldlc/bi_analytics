@@ -16,13 +16,13 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         svg {
-            height: 300px;
-            min-height: 300px;
+            height: 200px;
+            min-height: 200px;
         }
 
-        .legend svg {
-            height: 50px;
-            min-height: 50px;
+        .legend_svg svg {
+            height: 30px;
+            min-height: 30px;
         }
     </style>
 </head>
@@ -63,12 +63,10 @@
 
     <h1 class="header">KPI analysis of <i>Be Influent</i> projects</h1>
 
-    <div class="row">
-        <div class="legend"></div>
-    </div>
-
     <h2 class="header" id="blog">Blog</h2>
-
+    <div class="row">
+        <div class="legend_svg" id="blog_legend"></div>
+    </div>
     <div class="row">
         <div class="col-4">
             <h4>Visitors</h4>
@@ -79,7 +77,7 @@
             <svg class="chart" id="blog_tm"></svg>
         </div>
         <div class="col-4">
-            <h4>Bump rate (%)</h4>
+            <h4>Bounce rate (%)</h4>
             <svg class="chart" id="blog_tr"></svg>
         </div>
         <div class="col-4">
@@ -98,7 +96,7 @@
 
     <h3 class="header" id="facebook">Facebook</h3>
     <div class="row">
-        <div class="legend"></div>
+        <div class="legend_svg" id="fb_legend"></div>
     </div>
     <div class="row">
         <div class="col-4">
@@ -124,7 +122,9 @@
     </div>
 
     <h3 class="header" id="twitter">Twitter</h3>
-
+    <div class="row">
+        <div class="legend_svg" id="tw_legend"></div>
+    </div>
     <div class="row">
         <div class="col-4">
             <h4># Fans</h4>
@@ -149,7 +149,9 @@
     </div>
 
     <h3 class="header" id="instagram">Instagram</h3>
-
+    <div class="row">
+        <div class="legend_svg" id="insta_legend"></div>
+    </div>
     <div class="row">
         <div class="col-4">
             <h4>Fans</h4>
@@ -174,7 +176,9 @@
     </div>
 
     <h3 class="header" id="discord">Discord</h3>
-
+    <div class="row">
+        <div class="legend_svg" id="discord_legend"></div>
+    </div>
     <div class="row">
         <div class="col-4">
             <h4>Number of members</h4>
@@ -191,7 +195,9 @@
     </div>
 
     <h3 class="header" id="youtube">Youtube</h3>
-
+    <div class="row">
+        <div class="legend_svg" id="yt_legend"></div>
+    </div>
     <div class="row">
         <div class="col-4">
             <h4>Number of fans</h4>
@@ -232,22 +238,23 @@
     var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser']
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    function legend(color) {
-        var legendRectSize = 18;
+    function legend(color, elem) {
+        console.log(elem)
+        var legendRectSize = 15;
         var legendSpacing = 4;
-        var svg = d3.select('.legend').append('svg')
+        var svg = d3.select('#' + elem).append('svg')
             .attr('width', 960)
-            .attr('height', 50)
+            .attr('height', 30);
 
+        console.log(svg)
         var legend = svg.selectAll('.legend')
             .data([1, 2, 3, 4, 5])
             .enter()
             .append('g')
             .attr('class', 'legend')
             .attr('transform', function (d, i) {
-                var offset = 20 * 5 / 2;
-                var horz = 30 + i * 180 + 10;
-                var vert = legendRectSize + 10;
+                var horz = 0 + i * 180 + 10;
+                var vert = 0;
                 return 'translate(' + horz + ',' + vert + ')';
             });
 
@@ -268,7 +275,7 @@
     }
 
     function draw_grouped_barchart(data, e, key, color) {
-        var w = 300, h = 300;
+        var w = 300, h = 200;
         var svg = d3.select(e),
             margin = {top: 5, right: 20, bottom: 20, left: 25},
             width = w - margin.left - margin.right,
@@ -333,7 +340,9 @@
     }
 
     $(function () {
-        legend(color);
+        $(".legend_svg").each(function (index) {
+            legend(color, $(this).attr('id'));
+        });
 
         $.get(URL, function (textString) {
             console.log("data loaded");
@@ -348,33 +357,33 @@
                         'week': +d[i++],
                         'date_start': moment(d[i++], 'DD/MM/YYYY'),
                         'date_end': moment(d[i++], 'DD/MM/YYYY'),
-                        'blog_vu': +d[i++],
-                        'blog_tm': +d[i++],
-                        'blog_tr': +(d[i++].replace('%', '')),
-                        'blog_pv': +d[i++],
-                        'blog_np': +d[i++],
-                        'blog_nz': +d[i++],
-                        'fb_fa': +d[i++],
-                        'fb_p': +d[i++],
-                        'fb_e': +d[i++],
-                        'fb_b': +d[i++],
-                        'fb_np': +d[i++],
-                        'tw_fa': +d[i++],
-                        'tw_p': +d[i++],
-                        'tw_e': +d[i++],
-                        'tw_b': +d[i++],
-                        'tw_np': +d[i++],
-                        'insta_fa': +d[i++],
-                        'insta_p': +d[i++],
-                        'insta_e': +d[i++],
-                        'insta_b': +d[i++],
-                        'insta_np': +d[i++],
-                        'discord_m': +d[i++],
-                        'discord_ms': +d[i++],
-                        'discord_v': +d[i++],
-                        'yt_fa': +d[i++],
-                        'yt_v': +d[i++],
-                        'yt_t': +d[i++],
+                        'blog_vu': +d[i++].replace(',', '.'),
+                        'blog_tm': +d[i++].replace(',', '.'),
+                        'blog_tr': +(d[i++].replace('%', '').replace(',', '.')),
+                        'blog_pv': +d[i++].replace(',', '.'),
+                        'blog_np': +d[i++].replace(',', '.'),
+                        'blog_nz': +d[i++].replace(',', '.'),
+                        'fb_fa': +d[i++].replace(',', '.'),
+                        'fb_p': +d[i++].replace(',', '.'),
+                        'fb_e': +d[i++].replace(',', '.'),
+                        'fb_b': +d[i++].replace(',', '.'),
+                        'fb_np': +d[i++].replace(',', '.'),
+                        'tw_fa': +d[i++].replace(',', '.'),
+                        'tw_p': +d[i++].replace(',', '.'),
+                        'tw_e': +d[i++].replace(',', '.'),
+                        'tw_b': +d[i++].replace(',', '.'),
+                        'tw_np': +d[i++].replace(',', '.'),
+                        'insta_fa': +d[i++].replace(',', '.'),
+                        'insta_p': +d[i++].replace(',', '.'),
+                        'insta_e': +d[i++].replace(',', '.'),
+                        'insta_b': +d[i++].replace(',', '.'),
+                        'insta_np': +d[i++].replace(',', '.'),
+                        'discord_m': +d[i++].replace(',', '.'),
+                        'discord_ms': +d[i++].replace(',', '.'),
+                        'discord_v': +d[i++].replace(',', '.'),
+                        'yt_fa': +d[i++].replace(',', '.'),
+                        'yt_v': +d[i++].replace(',', '.'),
+                        'yt_t': +d[i++].replace(',', '.'),
 
                     });
                 }
