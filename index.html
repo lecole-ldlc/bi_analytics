@@ -55,6 +55,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="#youtube">Youtube</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#score">Scores</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -212,6 +215,28 @@
             <svg class="chart" id="yt_t"></svg>
         </div>
     </div>
+
+    <h3 class="header" id="score">Scores</h3>
+
+    <div class="row">
+        <div class="legend_svg" id="agg_legend"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <h4>Blog</h4>
+            <svg class="chart" id="blog_agg"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Facebook</h4>
+            <svg class="chart" id="fb_agg"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Total</h4>
+            <svg class="chart" id="total_score"></svg>
+        </div>
+    </div>
+
     <a href="#0" class="cd-top">Top</a>
 </div> <!-- /container -->
 
@@ -339,6 +364,16 @@
 
     }
 
+    function gen_scale(key, min) {
+        return d3.scaleLinear()
+            .domain([min ? min : d3.min(data, function (d) {
+                return d[key];
+            }), d3.max(data, function (d) {
+                return d[key];
+            })])
+            .range([0, 1])
+    }
+
     $(function () {
         $(".legend_svg").each(function (index) {
             legend(color, $(this).attr('id'));
@@ -384,11 +419,21 @@
                         'yt_fa': +d[i++].replace(',', '.'),
                         'yt_v': +d[i++].replace(',', '.'),
                         'yt_t': +d[i++].replace(',', '.'),
-
+                        'blog_agg': 0,
+                        'fb_agg': 0,
+                        'total_score': 0
                     });
                 }
             });
             console.log(data);
+            data.forEach(function (d) {
+                blog_vu_scale = gen_scale('blog_vu');
+                blog_tm_scale = gen_scale('blog_tm');
+                blog_pv_scale = gen_scale('blog_pv');
+                d.blog_agg = (blog_vu_scale(d.blog_vu) + blog_tm_scale(d.blog_tm) + blog_pv_scale(d.blog_pv)) / 3 * 100;
+
+            });
+
             $(".chart").each(function (index) {
                 var id = $(this).attr('id');
                 draw_grouped_barchart(data, "#" + id, id, color);
