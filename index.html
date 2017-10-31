@@ -1,141 +1,391 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Analytics for L'Ecole LDLC Be Influent Project 2017</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        svg {
+            height: 300px;
+            min-height: 300px;
+        }
 
-    <!-- Custom styles for this template -->
-    <link href="grid.css" rel="stylesheet">
-  </head>
+        .legend svg {
+            height: 50px;
+            min-height: 50px;
+        }
+    </style>
+</head>
 
-  <body>
-    <div class="container">
+<body>
 
-      <h1>Bootstrap grid examples</h1>
-      <p class="lead">Basic grid layouts to get you familiar with building within the Bootstrap grid system.</p>
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">BI 2017</a>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#facebook">Facebook</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#twitter">Twitter</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#instagram">Instagram</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#discord">Discord</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#youtube">Youtube</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-      <h3>Five grid tiers</h3>
-      <p>There are five tiers to the Bootstrap grid system, one for each range of devices we support. Each tier starts at a minimum viewport size and automatically applies to the larger devices unless overridden.</p>
+<div class="container">
 
-      <div class="row">
-        <div class="col-4">.col-4</div>
-        <div class="col-4">.col-4</div>
-        <div class="col-4">.col-4</div>
-      </div>
+    <h1>KPI analysis of <i>Be Influent</i> projects</h1>
+    <p class="lead">This page presents comparative KPI of the BI projects.</p>
 
-      <div class="row">
-        <div class="col-sm-4">.col-sm-4</div>
-        <div class="col-sm-4">.col-sm-4</div>
-        <div class="col-sm-4">.col-sm-4</div>
-      </div>
+    <div class="row">
+        <div class="legend"></div>
+    </div>
 
-      <div class="row">
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
-      </div>
+    <h3 id="blog">Blog</h3>
 
-      <div class="row">
-        <div class="col-lg-4">.col-lg-4</div>
-        <div class="col-lg-4">.col-lg-4</div>
-        <div class="col-lg-4">.col-lg-4</div>
-      </div>
-
-      <div class="row">
-        <div class="col-xl-4">.col-xl-4</div>
-        <div class="col-xl-4">.col-xl-4</div>
-        <div class="col-xl-4">.col-xl-4</div>
-      </div>
-
-      <h3>Three equal columns</h3>
-      <p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
-      <div class="row">
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
-      </div>
-
-      <h3>Three unequal columns</h3>
-      <p>Get three columns <strong>starting at desktops and scaling to large desktops</strong> of various widths. Remember, grid columns should add up to twelve for a single horizontal block. More than that, and columns start stacking no matter the viewport.</p>
-      <div class="row">
-        <div class="col-md-3">.col-md-3</div>
-        <div class="col-md-6">.col-md-6</div>
-        <div class="col-md-3">.col-md-3</div>
-      </div>
-
-      <h3>Two columns</h3>
-      <p>Get two columns <strong>starting at desktops and scaling to large desktops</strong>.</p>
-      <div class="row">
-        <div class="col-md-8">.col-md-8</div>
-        <div class="col-md-4">.col-md-4</div>
-      </div>
-
-      <h3>Full width, single column</h3>
-      <p class="text-warning">No grid classes are necessary for full-width elements.</p>
-
-      <hr>
-
-      <h3>Two columns with two nested columns</h3>
-      <p>Per the documentation, nesting is easy—just put a row of columns within an existing column. This gives you two columns <strong>starting at desktops and scaling to large desktops</strong>, with another two (equal widths) within the larger column.</p>
-      <p>At mobile device sizes, tablets and down, these columns and their nested columns will stack.</p>
-      <div class="row">
-        <div class="col-md-8">
-          .col-md-8
-          <div class="row">
-            <div class="col-md-6">.col-md-6</div>
-            <div class="col-md-6">.col-md-6</div>
-          </div>
+    <div class="row">
+        <div class="col-4">
+            <h4>Visitors</h4>
+            <svg class="chart" id="blog_vu"></svg>
         </div>
-        <div class="col-md-4">.col-md-4</div>
-      </div>
+        <div class="col-4">
+            <h4>Average time (s)</h4>
+            <svg class="chart" id="blog_tm"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Bump rate (%)</h4>
+            <svg class="chart" id="blog_tr"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Avg. # pages</h4>
+            <svg class="chart" id="blog_pv"></svg>
+        </div>
+        <div class="col-4">
+            <h4># publications</h4>
+            <svg class="chart" id="blog_np"></svg>
+        </div>
+        <div class="col-4">
+            <h4># Subscribers</h4>
+            <svg class="chart" id="blog_nz"></svg>
+        </div>
+    </div>
 
-      <hr>
+    <h3 id="social_network">Social networks</h3>
+    <h4 id="facebook">Facebook</h4>
+    <div class="row">
+        <div class="legend"></div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <h4># Fans</h4>
+            <svg class="chart" id="fb_fa"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Reach</h4>
+            <svg class="chart" id="fb_p"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Engagement</h4>
+            <svg class="chart" id="fb_e"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Budget (€)</h4>
+            <svg class="chart" id="fb_b"></svg>
+        </div>
+        <div class="col-4">
+            <h4># publications</h4>
+            <svg class="chart" id="fb_np"></svg>
+        </div>
+    </div>
 
-      <h3>Mixed: mobile and desktop</h3>
-      <p>The Bootstrap v4 grid system has five tiers of classes: xs (extra small), sm (small), md (medium), lg (large), and xl (extra large). You can use nearly any combination of these classes to create more dynamic and flexible layouts.</p>
-      <p>Each tier of classes scales up, meaning if you plan on setting the same widths for xs and sm, you only need to specify xs.</p>
-      <div class="row">
-        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-      </div>
-      <div class="row">
-        <div class="col-6">.col-6</div>
-        <div class="col-6">.col-6</div>
-      </div>
+    <h4 id="twitter">Twitter</h4>
 
-      <hr>
+    <div class="row">
+        <div class="col-4">
+            <h4># Fans</h4>
+            <svg class="chart" id="tw_fa"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Reach</h4>
+            <svg class="chart" id="tw_p"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Engagement</h4>
+            <svg class="chart" id="tw_e"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Budget (€)</h4>
+            <svg class="chart" id="tw_b"></svg>
+        </div>
+        <div class="col-4">
+            <h4># publications</h4>
+            <svg class="chart" id="tw_np"></svg>
+        </div>
+    </div>
 
-      <h3>Mixed: mobile, tablet, and desktop</h3>
-      <p></p>
-      <div class="row">
-        <div class="col-12 col-sm-6 col-lg-8">.col-12 .col-sm-6 .col-lg-8</div>
-        <div class="col-6 col-lg-4">.col-6 .col-lg-4</div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-sm-4">.col-6 .col-sm-4</div>
-        <div class="col-6 col-sm-4">.col-6 .col-sm-4</div>
-        <div class="col-6 col-sm-4">.col-6 .col-sm-4</div>
-      </div>
+    <h4 id="instagram">Instagram</h4>
 
-    </div> <!-- /container -->
-  </body>
+    <div class="row">
+        <div class="col-4">
+            <h4>Fans</h4>
+            <svg class="chart" id="insta_fa"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Reach</h4>
+            <svg class="chart" id="insta_p"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Engagement</h4>
+            <svg class="chart" id="insta_e"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Budget</h4>
+            <svg class="chart" id="insta_b"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Number of publications</h4>
+            <svg class="chart" id="insta_np"></svg>
+        </div>
+    </div>
 
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <h3 id="discord">KPI on Discord</h3>
 
+    <div class="row">
+        <div class="col-4">
+            <h4>Number of members</h4>
+            <svg class="chart" id="discord_m"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Messages</h4>
+            <svg class="chart" id="discord_ms"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Members in audio</h4>
+            <svg class="chart" id="discord_v"></svg>
+        </div>
+    </div>
+
+    <h3 id="youtube">KPI on Youtube</h3>
+
+    <div class="row">
+        <div class="col-4">
+            <h4>Number of fans</h4>
+            <svg class="chart" id="yt_fa"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Number of views</h4>
+            <svg class="chart" id="yt_v"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Average time</h4>
+            <svg class="chart" id="yt_t"></svg>
+        </div>
+    </div>
+    <a href="#0" class="cd-top">Top</a>
+</div> <!-- /container -->
+
+</body>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="js/moment-with-locales.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/main.js"></script>
+
+<script type="text/javascript">
+    var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
+    var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser']
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    function legend(color) {
+        var legendRectSize = 18;
+        var legendSpacing = 4;
+        var svg = d3.select('.legend').append('svg')
+            .attr('width', 960)
+            .attr('height', 50)
+
+        var legend = svg.selectAll('.legend')
+            .data([1, 2, 3, 4, 5])
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function (d, i) {
+                var offset = 20 * 5 / 2;
+                var horz = 30 + i * 180 + 10;
+                var vert = legendRectSize + 10;
+                return 'translate(' + horz + ',' + vert + ')';
+            });
+
+        // These are the rectangles
+        legend.append('rect')
+            .attr('width', legendRectSize)
+            .attr('height', legendRectSize)
+            .style('fill', color)
+            .style('stroke', color);
+
+        // These are the texts
+        legend.append('text')
+            .attr('x', legendRectSize + 5)
+            .attr('y', 15)
+            .text(function (d) {
+                return projects[d - 1]
+            })
+    }
+
+    function draw_grouped_barchart(data, e, key, color) {
+        var w = 300, h = 300;
+        var svg = d3.select(e),
+            margin = {top: 5, right: 20, bottom: 20, left: 25},
+            width = w - margin.left - margin.right,
+            height = h - margin.top - margin.bottom,
+            g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var x0 = d3.scaleBand()
+            .rangeRound([0, width])
+            .paddingInner(0.1);
+
+        var x1 = d3.scaleBand()
+            .padding(0.05);
+
+        var y = d3.scaleLinear()
+            .rangeRound([height, 0]);
+
+        weeks = [43]
+        x0.domain(weeks);
+        keys = [1, 2, 3, 4, 5]
+        x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+        y.domain([0, d3.max(data, function (d) {
+            return d[key];
+        })]).nice();
+        g.append("g")
+            .selectAll("g")
+            .data(weeks)
+            .enter().append("g")
+            .attr("transform", function (d) {
+                return "translate(" + x0(d) + ",0)";
+            })
+            .selectAll("rect")
+            .data(data)
+            .enter()
+            .filter(function (d) {
+                return !isNaN(+d[key]);
+            })
+            .append("rect")
+            .attr("x", function (d) {
+                return x1(d.id);
+            })
+            .attr("y", function (d) {
+                return y(d[key]);
+            })
+            .attr("width", x1.bandwidth())
+            .attr("height", function (d) {
+                return height - y(d[key]);
+            })
+            .attr("fill", function (d) {
+                return color(d.id);
+            });
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + (height) + ")")
+            .call(d3.axisBottom(x0));
+
+        g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y))
+
+
+    }
+
+    $(function () {
+        legend(color);
+
+        $.get(URL, function (textString) {
+            console.log("data loaded");
+            var data_full = d3.csvParseRows(textString)
+            data = [];
+            data_full.forEach(function (d) {
+                dh = parseInt(d[7], 10);
+                if (!isNaN(dh)) {
+                    i = 3;
+                    data.push({
+                        'id': d[i++],
+                        'week': +d[i++],
+                        'date_start': moment(d[i++], 'DD/MM/YYYY'),
+                        'date_end': moment(d[i++], 'DD/MM/YYYY'),
+                        'blog_vu': +d[i++],
+                        'blog_tm': +d[i++],
+                        'blog_tr': +(d[i++].replace('%', '')),
+                        'blog_pv': +d[i++],
+                        'blog_np': +d[i++],
+                        'blog_nz': +d[i++],
+                        'fb_fa': +d[i++],
+                        'fb_p': +d[i++],
+                        'fb_e': +d[i++],
+                        'fb_b': +d[i++],
+                        'fb_np': +d[i++],
+                        'tw_fa': +d[i++],
+                        'tw_p': +d[i++],
+                        'tw_e': +d[i++],
+                        'tw_b': +d[i++],
+                        'tw_np': +d[i++],
+                        'insta_fa': +d[i++],
+                        'insta_p': +d[i++],
+                        'insta_e': +d[i++],
+                        'insta_b': +d[i++],
+                        'insta_np': +d[i++],
+                        'discord_m': +d[i++],
+                        'discord_ms': +d[i++],
+                        'discord_v': +d[i++],
+                        'yt_fa': +d[i++],
+                        'yt_v': +d[i++],
+                        'yt_t': +d[i++],
+
+                    });
+                }
+            });
+            console.log(data);
+            $(".chart").each(function (index) {
+                var id = $(this).attr('id');
+                draw_grouped_barchart(data, "#" + id, id, color);
+            });
+        });
+    });
+</script>
 </html>
