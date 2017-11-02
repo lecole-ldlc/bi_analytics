@@ -298,9 +298,8 @@ $(function () {
         weeks.forEach(function (w) {
             $('#radar_week_select')
                 .append($('<option>', {value: w})
-                    .text('Semaine ' + w));
+                    .text(w));
         });
-        $('select').material_select();
 
         // Compute scores
         data.forEach(function (d) {
