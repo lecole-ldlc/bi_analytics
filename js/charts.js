@@ -60,9 +60,9 @@ var tick_formats = {
     'yt_fa': d3.format(".0s"),
     'yt_v': d3.format(".0s"),
     'yt_t': d3.format(".0s"),
-    'blog_agg': d3.format(".0s"),
-    'fb_agg': d3.format(".0s"),
-    'total_score': d3.format(".0s")
+    'blog_score': d3.format(".1f"),
+    'fb_score': d3.format(".1f"),
+    'total_score': d3.format(".1f")
 };
 
 var minimums = {
@@ -93,8 +93,8 @@ var minimums = {
     'yt_fa': 0,
     'yt_v': 0,
     'yt_t': 0,
-    'blog_agg': 0,
-    'fb_agg': 0,
+    'blog_score': 0,
+    'fb_score': 0,
     'total_score': 0
 };
 
@@ -253,8 +253,8 @@ function load_data(data_full) {
                 'yt_fa': +d[i++].replace(',', '.'),
                 'yt_v': +d[i++].replace(',', '.'),
                 'yt_t': +d[i++].replace(',', '.'),
-                'blog_agg': 0,
-                'fb_agg': 0,
+                'blog_score': 0,
+                'fb_score': 0,
                 'total_score': 0
             });
         }
@@ -288,12 +288,13 @@ $(function () {
         // Compute scores
         data.forEach(function (d) {
 
-            d.blog_agg = (scales['blog_vu'](d.blog_vu) +
+            d.blog_score = (scales['blog_vu'](d.blog_vu) +
                 scales['blog_tm'](d.blog_tm) +
                 scales['blog_pv'](d.blog_pv)) / 3.0 * 100.0;
-            d.fb_agg = (scales['blog_vu'](d.blog_vu) +
-                scales['blog_tm'](d.blog_tm) +
-                scales['blog_pv'](d.blog_pv)) / 3.0 * 100.0;
+            d.fb_score = (scales['fb_fa'](d.fb_fa) +
+                scales['fb_p'](d.fb_p) +
+                scales['fb_e'](d.fb_e)) / 3.0 * 100.0;
+            d.total_score = (d.blog_score + d.fb_score) / 2.0;
 
         });
 

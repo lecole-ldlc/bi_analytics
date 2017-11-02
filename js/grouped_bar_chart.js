@@ -75,7 +75,7 @@ var GroupedBarChart = {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .8);
-                tooltip.html(projects_short[d.id - 1] + ' <b>' + d[key] + '</b> ' + variation(d, key, cfg.weeks, data))
+                tooltip.html(projects_short[d.id - 1] + ' <b>' + tick_formats[key](d[key]) + '</b> ' + variation(d, key, cfg.weeks, data))
                     .style("left", d3.event.pageX + "px")
                     .style("top", d3.event.pageY + "px");
 

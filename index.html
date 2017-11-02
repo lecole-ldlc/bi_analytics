@@ -225,17 +225,17 @@
     <h3 class="header" id="score">Scores</h3>
 
     <div class="row">
-        <div class="legend_svg" id="agg_legend"></div>
+        <div class="legend_svg" id="score_legend"></div>
     </div>
 
     <div class="row">
         <div class="col-4">
             <h4>Blog</h4>
-            <svg class="chart" id="blog_agg"></svg>
+            <svg class="chart" id="blog_score"></svg>
         </div>
         <div class="col-4">
             <h4>Facebook</h4>
-            <svg class="chart" id="fb_agg"></svg>
+            <svg class="chart" id="fb_score"></svg>
         </div>
         <div class="col-4">
             <h4>Total</h4>
@@ -280,7 +280,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h4>KPI on blog / Website</h4>
+            <h4>KPI du blog / site web</h4>
             <ul>
                 <li><b>Visiteurs</b> Nombre de visiteurs uniques sur la période</li>
                 <li><b>Temps moyen</b> Temps moyen sur le site en secondes entières, sur la période</li>
@@ -291,7 +291,7 @@
                 <li><b>Publications</b> Nombre de publications (articles) sur la période</li>
                 <li><b>Abonnés newsletter</b> Nombre d'abonnés à la newsletter à la fin de la période</li>
             </ul>
-            <h4>KPI on Social media (facebook, twitter, instagram)</h4>
+            <h4>KPI sur les réseaux sociaux (facebook, twitter, instagram)</h4>
             <ul>
                 <li><b>Communauté</b> Nombre de fans/followers/subscribers à la fin de la période</li>
                 <li><b>Portée</b> Nombre d'impressions sur la période</li>
@@ -299,16 +299,22 @@
                 <li><b>Budget (€)</b> Budget dépensé sur la période</li>
                 <li><b>Publications</b> Nombre de publications</li>
             </ul>
-            <h4>KPI on Discord</h4>
+            <h4>KPI sur Discord</h4>
             <ul>
                 <li><b>Communauté</b> Nombre de membres à la fin de la période</li>
                 <li><b>Messages</b> Nombre de messages sur la période</li>
                 <li><b>Salon vocaux</b> Nombre de membres actifs dans les salons vocaux sur la période</li>
             </ul>
-            <h4>KPI on Youtube</h4>
+            <h4>KPI sur Youtube</h4>
             <ul>
                 <li><b>Communauté</b> Nombre de membres à la fin de la période</li>
                 <li><b>Vues</b> Nombre de vues sur la période</li>
+                <li><b>Temps moyen</b> Temps moyen de visionnage sur la période</li>
+            </ul>
+            <h4>Score</h4>
+            <ul>
+                <li><b>Blog</b> Somme de Visiteurs, Temps moyen et pages vues, chacun ramené entre 0 et 1 (1 étant le max de tous les projets), puis divisé par 3 et multiplié par 100.</li>
+                <li><b>Facebook</b> Somme de la Taille de la communauté, de la portée et de l'engagement, chacun ramené entre 0 et 1 (1 étant le max de tous les projets), puis divisé par 3 et multiplié par 100.</li>
                 <li><b>Temps moyen</b> Temps moyen de visionnage sur la période</li>
             </ul>
         </div>
