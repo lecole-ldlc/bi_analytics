@@ -300,7 +300,13 @@
 <script type="text/javascript">
     var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
     var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser']
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    var color = d3.scaleOrdinal([
+        'rgb(31, 119, 180)', // Paye ta planche
+        '#3EAD4E', // Acthulu
+        'rgb(214, 39, 40)', // Red nugget
+        'rgb(255, 127, 14)', // Au gamer apaisé
+        'rgb(148, 103, 189)' // La planche à repasser
+    ]);
 
     function legend(color, elem) {
         var legendRectSize = 15;
