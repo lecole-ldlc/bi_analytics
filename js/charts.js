@@ -1,6 +1,19 @@
 var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
-var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser']
-var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR']
+var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser'];
+var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
+var dims = ['blog_vu', 'blog_tm', 'blog_pv', 'blog_np', 'fb_fa', 'fb_p', 'fb_e', 'fb_b', 'fb_np'];
+var dims_name = {
+    'blog_vu': 'B/Visiteurs',
+    'blog_tm': 'B/Temps moyen',
+    'blog_pv': 'B/Pages',
+    'blog_np': 'Publications',
+    'fb_fa': 'FB/Communauté',
+    'fb_p': 'FB/Publications',
+    'fb_e': 'FB/Engagement',
+    'fb_b': 'FB/Budget',
+    'fb_np': 'FB/Publications'
+};
+
 var color = d3.scaleOrdinal([
     'rgb(31, 119, 180)', // Paye ta planche
     '#3EAD4E', // Acthulu
@@ -58,13 +71,13 @@ var tick_formats = {
 function variation(d, key, weeks, data) {
     var prev_week = -1;
     weeks.forEach(function (w, i) {
-        if (w === d.week && i > 0) {
+        if (w == d.week && i > 0) {
             prev_week = weeks[i - 1];
         }
     });
 
-    var d_prev = data.filter(function(d2){
-       return (d2.week === prev_week && d2.id === d.id);
+    var d_prev = data.filter(function (d2) {
+        return (d2.week == prev_week && d2.id == d.id);
     })[0];
 
     if (prev_week >= 0 && d_prev[key]) {
@@ -112,100 +125,42 @@ function legend(elem) {
         });
 }
 
-function draw_grouped_barchart(data, e, key) {
+function draw_radar(data, e, week, scales, selected_projects) {
+    $(e).html('');
 
-    var w = 300, h = 200;
-
-
-    var svg = d3.select(e),
-        margin = {top: 5, right: 10, bottom: 20, left: 40},
-        width = w - margin.left - margin.right,
-        height = h - margin.top - margin.bottom,
-        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    var x0 = d3.scaleBand()
-        .rangeRound([0, width])
-        .paddingInner(0.1);
-
-    var x1 = d3.scaleBand()
-        .padding(0.05);
-
-    var y = d3.scaleLinear()
-        .rangeRound([height, 0]);
-
-
-    var weeks = d3.nest().key(function (d) {
-        return d.week;
-    }).entries(data).map(function (d) {
-        return d.key;
+    data_t = [];
+    var cols = [0,1,2,3,4,5]
+    var ind = 0;
+    data.forEach(function (d) {
+        if (d.week == week && $.inArray(d.id, selected_projects) !== -1) {
+            o = [];
+            dims.forEach(function (dim) {
+                o.push({area: dims_name[dim], value: scales[dim](d[dim])})
+            });
+            data_t.push(o);
+            cols[ind] = parseInt(d.id);
+            ind += 1
+        }
     });
+    var mycfg = {
+        w: 600,
+        h: 600,
+        maxValue: 1.0,
+        levels: 4,
+        ExtraWidthX: 300,
+        ExtraWidthY: 300,
+        colors: cols,
+        color: color,
+    };
 
-    x0.domain(weeks);
-    keys = [1, 2, 3, 4, 5]
-    x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-    y.domain([0, d3.max(data, function (d) {
-        return d[key];
-    })]).nice();
-    g.append("g")
-        .selectAll("g")
-        .data(weeks)
-        .enter().append("g")
-        .attr("transform", function (d) {
-            return "translate(" + x0(d) + ",0)";
-        })
-        .selectAll("rect")
-        .data(data)
-        .enter()
-        .filter(function (d) {
-            return !isNaN(+d[key]);
-        })
-        .append("rect")
-        .attr("x", function (d) {
-            return x1(d.id);
-        })
-        .attr("y", function (d) {
-            return y(d[key]);
-        })
-        .attr("width", x1.bandwidth())
-        .attr("height", function (d) {
-            return height - y(d[key]);
-        })
-        .attr("fill", function (d) {
-            return color(d.id);
-        })
-        .on("mouseover", function (d) {
-            d3.select(this).transition().duration(100)
-                .style("opacity", 0.8)
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", .8);
-            tooltip.html(projects_short[d.id - 1] + ' <b>' + d[key] + '</b> ' + variation(d, key, weeks, data))
-                .style("left", d3.event.pageX + "px")
-                .style("top", d3.event.pageY + "px");
-
-        })
-        .on("mousemove", function (d) {
-            tooltip
-                .style("left", d3.event.pageX + "px")
-                .style("top", d3.event.pageY + "px");
-
-        })
-        .on("mouseout", function (d) {
-            d3.select(this).transition().duration(100)
-                .style("opacity", 1)
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", 0);
-        })
-
-    g.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(0," + (height) + ")")
-        .call(d3.axisBottom(x0));
-
-    g.append("g")
-        .attr("class", "axis")
-        .call(d3.axisLeft(y).tickFormat(tick_formats[key]))
+    console.log(data_t);
+    console.log(mycfg.colors);
+    if (data_t.length > 0) {
+        RadarChart.draw(e, data_t, mycfg);
+    }
+    else {
+        console.log("Not rendering radar chart.");
+    }
 
 }
 
@@ -219,6 +174,53 @@ function gen_scale(key, min) {
         .range([0, 1])
 }
 
+function load_data(data_full) {
+    data = [];
+    data_full.forEach(function (d) {
+        dh = parseInt(d[7], 10);
+        if (!isNaN(dh)) {
+            i = 3;
+            data.push({
+                'id': d[i++],
+                'week': +d[i++],
+                'date_start': moment(d[i++], 'DD/MM/YYYY'),
+                'date_end': moment(d[i++], 'DD/MM/YYYY'),
+                'blog_vu': +d[i++].replace(',', '.'),
+                'blog_tm': +d[i++].replace(',', '.'),
+                'blog_tr': +(d[i++].replace('%', '').replace(',', '.')),
+                'blog_pv': +d[i++].replace(',', '.'),
+                'blog_np': +d[i++].replace(',', '.'),
+                'blog_nz': +d[i++].replace(',', '.'),
+                'fb_fa': +d[i++].replace(',', '.'),
+                'fb_p': +d[i++].replace(',', '.'),
+                'fb_e': +d[i++].replace(',', '.'),
+                'fb_b': +d[i++].replace(',', '.'),
+                'fb_np': +d[i++].replace(',', '.'),
+                'tw_fa': +d[i++].replace(',', '.'),
+                'tw_p': +d[i++].replace(',', '.'),
+                'tw_e': +d[i++].replace(',', '.'),
+                'tw_b': +d[i++].replace(',', '.'),
+                'tw_np': +d[i++].replace(',', '.'),
+                'insta_fa': +d[i++].replace(',', '.'),
+                'insta_p': +d[i++].replace(',', '.'),
+                'insta_e': +d[i++].replace(',', '.'),
+                'insta_b': +d[i++].replace(',', '.'),
+                'insta_np': +d[i++].replace(',', '.'),
+                'discord_m': +d[i++].replace(',', '.'),
+                'discord_ms': +d[i++].replace(',', '.'),
+                'discord_v': +d[i++].replace(',', '.'),
+                'yt_fa': +d[i++].replace(',', '.'),
+                'yt_v': +d[i++].replace(',', '.'),
+                'yt_t': +d[i++].replace(',', '.'),
+                'blog_agg': 0,
+                'fb_agg': 0,
+                'total_score': 0
+            });
+        }
+    });
+    return data;
+}
+
 $(function () {
     $(".legend_svg").each(function (index) {
         legend($(this).attr('id'));
@@ -226,62 +228,54 @@ $(function () {
 
     $.get(URL, function (textString) {
         console.log("data loaded");
-        var data_full = d3.csvParseRows(textString)
-        data = [];
-        data_full.forEach(function (d) {
-            dh = parseInt(d[7], 10);
-            if (!isNaN(dh)) {
-                i = 3;
-                data.push({
-                    'id': d[i++],
-                    'week': +d[i++],
-                    'date_start': moment(d[i++], 'DD/MM/YYYY'),
-                    'date_end': moment(d[i++], 'DD/MM/YYYY'),
-                    'blog_vu': +d[i++].replace(',', '.'),
-                    'blog_tm': +d[i++].replace(',', '.'),
-                    'blog_tr': +(d[i++].replace('%', '').replace(',', '.')),
-                    'blog_pv': +d[i++].replace(',', '.'),
-                    'blog_np': +d[i++].replace(',', '.'),
-                    'blog_nz': +d[i++].replace(',', '.'),
-                    'fb_fa': +d[i++].replace(',', '.'),
-                    'fb_p': +d[i++].replace(',', '.'),
-                    'fb_e': +d[i++].replace(',', '.'),
-                    'fb_b': +d[i++].replace(',', '.'),
-                    'fb_np': +d[i++].replace(',', '.'),
-                    'tw_fa': +d[i++].replace(',', '.'),
-                    'tw_p': +d[i++].replace(',', '.'),
-                    'tw_e': +d[i++].replace(',', '.'),
-                    'tw_b': +d[i++].replace(',', '.'),
-                    'tw_np': +d[i++].replace(',', '.'),
-                    'insta_fa': +d[i++].replace(',', '.'),
-                    'insta_p': +d[i++].replace(',', '.'),
-                    'insta_e': +d[i++].replace(',', '.'),
-                    'insta_b': +d[i++].replace(',', '.'),
-                    'insta_np': +d[i++].replace(',', '.'),
-                    'discord_m': +d[i++].replace(',', '.'),
-                    'discord_ms': +d[i++].replace(',', '.'),
-                    'discord_v': +d[i++].replace(',', '.'),
-                    'yt_fa': +d[i++].replace(',', '.'),
-                    'yt_v': +d[i++].replace(',', '.'),
-                    'yt_t': +d[i++].replace(',', '.'),
-                    'blog_agg': 0,
-                    'fb_agg': 0,
-                    'total_score': 0
-                });
-            }
+        var data_full = d3.csvParseRows(textString);
+        data = load_data(data_full);
+
+        scales = {};
+        // Compute scales
+        dims.forEach(function (dim) {
+            scales[dim] = gen_scale(dim);
         });
-        console.log(data);
+
+        // Compute weeks
+        weeks = d3.nest().key(function (d) {
+            return d.week;
+        }).entries(data).map(function (d) {
+            return d.key;
+        });
+
+        // Compute scores
         data.forEach(function (d) {
-            blog_vu_scale = gen_scale('blog_vu');
-            blog_tm_scale = gen_scale('blog_tm');
-            blog_pv_scale = gen_scale('blog_pv');
-            d.blog_agg = (blog_vu_scale(d.blog_vu) + blog_tm_scale(d.blog_tm) + blog_pv_scale(d.blog_pv)) / 3 * 100;
+
+            d.blog_agg = (scales['blog_vu'](d.blog_vu) +
+                scales['blog_tm'](d.blog_tm) +
+                scales['blog_pv'](d.blog_pv)) / 3.0 * 100.0;
+            d.fb_agg = (scales['blog_vu'](d.blog_vu) +
+                scales['blog_tm'](d.blog_tm) +
+                scales['blog_pv'](d.blog_pv)) / 3.0 * 100.0;
 
         });
+
+        // Draw barcharts
+        var bc_cfg = {
+            color: color,
+            weeks: weeks,
+        };
+
 
         $(".chart").each(function (index) {
             var id = $(this).attr('id');
-            draw_grouped_barchart(data, "#" + id, id);
+            GroupedBarChart.draw("#" + id, data, bc_cfg, id);
         });
+
+        // Draw spider/radar chart
+        draw_radar(data, '#radar', weeks[weeks.length - 1], scales, []);
+    });
+
+    $(".cb_radar").on("change", function () {
+        var pr = $('.cb_radar:checked').map(function () {
+            return this.value;
+        }).get();
+        draw_radar(data, '#radar', weeks[weeks.length - 1], scales, pr);
     });
 });

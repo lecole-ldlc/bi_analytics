@@ -10,9 +10,8 @@
     <title>L'Ecole LDLC, projets "Be Influent" 2017</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
         svg {
@@ -58,6 +57,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#score">Scores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#radar_title">Radar</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#help">Aide</a>
@@ -241,6 +243,39 @@
         </div>
     </div>
 
+    <h3 class="header" id="radar_title">Radar</h3>
+
+    <div class="row">
+        <div class="legend_svg" id="radar_legend"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <input class="cb_radar" type="checkbox" id="cb_radar_1" value="1"/>
+            <label for="cb_radar_1">Paye ta planche</label>
+        </div>
+        <div class="col-2">
+            <input class="cb_radar" type="checkbox" id="cb_radar_2" value="2"/>
+            <label for="cb_radar_2">Acthulhu</label>
+        </div>
+        <div class="col-2">
+            <input class="cb_radar" type="checkbox" id="cb_radar_3" value="3"/>
+            <label for="cb_radar_3">Red Nugget</label>
+        </div>
+        <div class="col-2">
+            <input class="cb_radar" type="checkbox" id="cb_radar_4" value="4"/>
+            <label for="cb_radar_4">Gamer apaisé</label>
+        </div>
+        <div class="col-2">
+            <input class="cb_radar" type="checkbox" id="cb_radar_5" value="5"/>
+            <label for="cb_radar_5">Planche à repasser</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="radar"></div>
+    </div>
+
     <h3 class="header" id="help">Help</h3>
 
     <div class="row">
@@ -284,15 +319,16 @@
 
 </body>
 
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script
-        src="js/jquery-3.2.1.min.js"></script>
+<script src="js/d3.v4.min.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/tether.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/materialize.min.js"></script>
 <script src="js/moment-with-locales.js"></script>
 <script src="js/modernizr.js"></script>
 <script src="js/main_backtotop.js"></script>
+<script src="js/radar_chart.js"></script>
+<script src="js/grouped_bar_chart.js"></script>
 <script src="js/charts.js"></script>
 
 <script type="text/javascript">
