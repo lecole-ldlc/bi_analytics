@@ -279,10 +279,13 @@ function refresh_barcharts() {
         weeks: weeks,
     };
 
-
+    var w = parseInt($("#main_week_select").val());
+    var data_f = data.filter(function (d) {
+        return (d.week == w || d.week == w - 1);
+    })
     $(".chart").each(function (index) {
         var id = $(this).attr('id');
-        GroupedBarChart.draw("#" + id, data, bc_cfg, id);
+        GroupedBarChart.draw("#" + id, data_f, bc_cfg, id);
     });
 
 }
