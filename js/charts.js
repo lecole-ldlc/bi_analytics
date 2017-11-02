@@ -272,6 +272,22 @@ function load_data(data_full) {
     return data;
 }
 
+function refresh_barcharts() {
+    // Draw barcharts
+    var bc_cfg = {
+        color: color,
+        weeks: weeks,
+    };
+
+
+    $(".chart").each(function (index) {
+        var id = $(this).attr('id');
+        GroupedBarChart.draw("#" + id, data, bc_cfg, id);
+    });
+
+}
+
+
 $(function () {
     $(".legend_svg").each(function (index) {
         legend($(this).attr('id'));
@@ -279,7 +295,7 @@ $(function () {
 
     $.get(URL, function (textString) {
         console.log("data loaded");
-        var data_full = d3.csvParseRows(textString);
+        data_full = d3.csvParseRows(textString);
         data = load_data(data_full);
 
         scales = {};
@@ -296,7 +312,7 @@ $(function () {
         });
 
         weeks.forEach(function (w) {
-            $('#radar_week_select')
+            $('.week_select')
                 .append($('<option>', {value: w})
                     .text(w));
         });
@@ -314,17 +330,7 @@ $(function () {
 
         });
 
-        // Draw barcharts
-        var bc_cfg = {
-            color: color,
-            weeks: weeks,
-        };
-
-
-        $(".chart").each(function (index) {
-            var id = $(this).attr('id');
-            GroupedBarChart.draw("#" + id, data, bc_cfg, id);
-        });
+        refresh_barcharts();
 
     });
 
@@ -334,4 +340,8 @@ $(function () {
         }).get();
         draw_radar(data, '#radar', weeks[weeks.length - 1], pr);
     });
+
+    $("#main_week_select").on("change", function () {
+        refresh_barcharts();
+    })
 });

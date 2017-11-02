@@ -17,7 +17,7 @@ var GroupedBarChart = {
                 }
             }
         }
-
+        $(id).html('');
         var svg = d3.select(id),
             margin = {top: 5, right: 10, bottom: 20, left: 40},
             width = cfg.w - margin.left - margin.right,
