@@ -30,7 +30,8 @@
 <body>
 
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarCollapse" aria-controls="navbarCollapse"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -133,7 +134,7 @@
     </div>
     <div class="row">
         <div class="col-4">
-           <h4>Communauté</h4>
+            <h4>Communauté</h4>
             <svg class="chart" id="tw_fa"></svg>
         </div>
         <div class="col-4">
@@ -248,7 +249,9 @@
             <ul>
                 <li><b>Visiteurs</b> Nombre de visiteurs uniques sur la période</li>
                 <li><b>Temps moyen</b> Temps moyen sur le site en secondes entières, sur la période</li>
-                <li><b>Bounce rate</b> Taux de rebond en pourcent (pourcentage des visiteurs qui quitte le site tout de suite), sur la période</li>
+                <li><b>Bounce rate</b> Taux de rebond en pourcent (pourcentage des visiteurs qui quitte le site tout de
+                    suite), sur la période
+                </li>
                 <li><b>Pages</b> Nombre moyen de pages vues par session</li>
                 <li><b>Publications</b> Nombre de publications (articles) sur la période</li>
                 <li><b>Abonnés newsletter</b> Nombre d'abonnés à la newsletter à la fin de la période</li>
@@ -308,6 +311,45 @@
         'rgb(148, 103, 189)' // La planche à repasser
     ]);
 
+    var formatTime = d3.timeFormat("%Mm%S");
+    var formatMinutes = function(d) {
+        var t = new Date(2012, 0, 1, 0, 0, d);
+        return formatTime(t);
+    };
+    var tick_formats = {
+        'blog_vu': d3.format(".0f"),
+        'blog_tm': formatMinutes,
+//        'blog_tm': d3.format(".0s"),
+        'blog_tr': d3.format(".0f"),
+        'blog_pv': d3.format(".0f"),
+        'blog_np': d3.format(".0f"),
+        'blog_nz': d3.format("d"),
+        'fb_fa': d3.format(".0f"),
+        'fb_p': d3.format(".1s"),
+        'fb_e': d3.format(".0f"),
+        'fb_b': d3.format(".0f"),
+        'fb_np': d3.format("d"),
+        'tw_fa': d3.format(".0f"),
+        'tw_p': d3.format(".1s"),
+        'tw_e': d3.format(".0f"),
+        'tw_b': d3.format(".0f"),
+        'tw_np': d3.format("d"),
+        'insta_fa': d3.format(".0f"),
+        'insta_p': d3.format(".1s"),
+        'insta_e': d3.format(".0f"),
+        'insta_b': d3.format(".0s"),
+        'insta_np': d3.format("d"),
+        'discord_m': d3.format(".0s"),
+        'discord_ms': d3.format(".0s"),
+        'discord_v': d3.format(".0s"),
+        'yt_fa': d3.format(".0s"),
+        'yt_v': d3.format(".0s"),
+        'yt_t': d3.format(".0s"),
+        'blog_agg': d3.format(".0s"),
+        'fb_agg': d3.format(".0s"),
+        'total_score': d3.format(".0s")
+    };
+
     function legend(color, elem) {
         var legendRectSize = 15;
         var legendSpacing = 4;
@@ -346,7 +388,7 @@
     function draw_grouped_barchart(data, e, key, color) {
         var w = 300, h = 200;
         var svg = d3.select(e),
-            margin = {top: 5, right: 20, bottom: 20, left: 25},
+            margin = {top: 5, right: 10, bottom: 20, left: 40},
             width = w - margin.left - margin.right,
             height = h - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -403,8 +445,7 @@
 
         g.append("g")
             .attr("class", "axis")
-            .call(d3.axisLeft(y))
-
+            .call(d3.axisLeft(y).tickFormat(tick_formats[key]))
 
     }
 
