@@ -1,3 +1,5 @@
+// Adapted from https://bl.ocks.org/alandunning/4c36eb1abdb248de34c64f5672afd857
+
 var RadarChart = {
     draw: function (id, d, options) {
         var cfg = {

@@ -11,7 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="css/style.css">
     <style>
         svg {
@@ -76,6 +76,7 @@
     <div class="row">
         <div class="legend_svg" id="blog_legend"></div>
     </div>
+
     <div class="row">
         <div class="col-4">
             <h4>Visiteurs</h4>
@@ -270,6 +271,14 @@
             <input class="cb_radar" type="checkbox" id="cb_radar_5" value="5"/>
             <label for="cb_radar_5">Planche à repasser</label>
         </div>
+        <div class="col-2">
+            <form>
+                <select id="radar_week_select">
+                </select>
+                <label>Semaine</label>
+            </form>
+        </div>
+
     </div>
 
     <div class="row">
@@ -313,9 +322,13 @@
             </ul>
             <h4>Score</h4>
             <ul>
-                <li><b>Blog</b> Somme de Visiteurs, Temps moyen et pages vues, chacun ramené entre 0 et 1 (1 étant le max de tous les projets), puis divisé par 3 et multiplié par 100.</li>
-                <li><b>Facebook</b> Somme de la Taille de la communauté, de la portée et de l'engagement, chacun ramené entre 0 et 1 (1 étant le max de tous les projets), puis divisé par 3 et multiplié par 100.</li>
-                <li><b>Temps moyen</b> Temps moyen de visionnage sur la période</li>
+                <li><b>Blog</b> Somme de Visiteurs, Temps moyen et pages vues, chacun ramené entre 0 et 1 (1 étant le max de tous les projets), puis divisé
+                    par 3 et multiplié par 100.
+                </li>
+                <li><b>Facebook</b> Somme de la Taille de la communauté, de la portée et de l'engagement, chacun ramené entre 0 et 1 (1 étant le max de
+                    tous les projets), puis divisé par 3 et multiplié par 100.
+                </li>
+                <li><b>Score total</b> Moyenne des 2 précédents scores.</li>
             </ul>
         </div>
     </div>
@@ -325,19 +338,24 @@
 
 </body>
 
+<!-- Libraries -->
 <script src="js/d3.v4.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/tether.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/materialize.min.js"></script>
-<script src="js/moment-with-locales.js"></script>
 <script src="js/modernizr.js"></script>
+<script src="js/moment-with-locales.js"></script>
 <script src="js/main_backtotop.js"></script>
+<script src="js/materialize.min.js"></script>
 <script src="js/radar_chart.js"></script>
+
+<!-- Custom scripts -->
 <script src="js/grouped_bar_chart.js"></script>
 <script src="js/charts.js"></script>
 
 <script type="text/javascript">
-
+    $(function () {
+        $('select').material_select();
+    })
 </script>
 </html>

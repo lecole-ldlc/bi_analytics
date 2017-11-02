@@ -1,3 +1,5 @@
+// Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
+
 var GroupedBarChart = {
     draw: function (id, data, options, key) {
         var cfg = {
