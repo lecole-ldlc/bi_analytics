@@ -1,16 +1,14 @@
 var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
 var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser'];
 var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
-var dims = ['blog_vu', 'blog_tm', 'blog_pv', 'blog_np', 'fb_fa', 'fb_p', 'fb_e', 'fb_b', 'fb_np'];
-var dims_name = {
+var radar_dims = {
     'blog_vu': 'B/Visiteurs',
     'blog_tm': 'B/Temps moyen',
     'blog_pv': 'B/Pages',
-    'blog_np': 'Publications',
+    'blog_np': 'B/Publications',
     'fb_fa': 'FB/Communauté',
-    'fb_p': 'FB/Publications',
+    'fb_p': 'FB/Portée',
     'fb_e': 'FB/Engagement',
-    'fb_b': 'FB/Budget',
     'fb_np': 'FB/Publications'
 };
 
@@ -66,6 +64,40 @@ var tick_formats = {
     'fb_agg': d3.format(".0s"),
     'total_score': d3.format(".0s")
 };
+
+var minimums = {
+    'blog_vu': 0,
+    'blog_tm': 0,
+    'blog_tr': 0,
+    'blog_pv': 0,
+    'blog_np': 0,
+    'blog_nz': 0,
+    'fb_fa': 0,
+    'fb_p': 0,
+    'fb_e': 0,
+    'fb_b': 0,
+    'fb_np': 0,
+    'tw_fa': 0,
+    'tw_p': 0,
+    'tw_e': 0,
+    'tw_b': 0,
+    'tw_np': 0,
+    'insta_fa': 0,
+    'insta_p': 0,
+    'insta_e': 0,
+    'insta_b': 0,
+    'insta_np': 0,
+    'discord_m': 0,
+    'discord_ms': 0,
+    'discord_v': 0,
+    'yt_fa': 0,
+    'yt_v': 0,
+    'yt_t': 0,
+    'blog_agg': 0,
+    'fb_agg': 0,
+    'total_score': 0
+};
+
 
 // This return an HTML string representing the variation with the previous period
 function variation(d, key, weeks, data) {
@@ -129,22 +161,28 @@ function draw_radar(data, e, week, scales, selected_projects) {
     $(e).html('');
 
     data_t = [];
-    var cols = [0,1,2,3,4,5]
+    var cols = [0, 1, 2, 3, 4, 5]
     var ind = 0;
     data.forEach(function (d) {
         if (d.week == week && $.inArray(d.id, selected_projects) !== -1) {
             o = [];
-            dims.forEach(function (dim) {
-                o.push({area: dims_name[dim], value: scales[dim](d[dim])})
-            });
+            for (var dim in radar_dims) {
+                console.log(dim);
+                console.log(d[dim]);
+                console.log(scales[dim]);
+                console.log(scales[dim](600));
+                console.log(scales[dim](d[dim]));
+
+                o.push({area: radar_dims[dim], value: scales[dim](d[dim])})
+            }
             data_t.push(o);
             cols[ind] = parseInt(d.id);
             ind += 1
         }
     });
     var mycfg = {
-        w: 600,
-        h: 600,
+        w: 500,
+        h: 500,
         maxValue: 1.0,
         levels: 4,
         ExtraWidthX: 300,
@@ -154,7 +192,6 @@ function draw_radar(data, e, week, scales, selected_projects) {
     };
 
     console.log(data_t);
-    console.log(mycfg.colors);
     if (data_t.length > 0) {
         RadarChart.draw(e, data_t, mycfg);
     }
@@ -165,8 +202,12 @@ function draw_radar(data, e, week, scales, selected_projects) {
 }
 
 function gen_scale(key, min) {
+    var min = minimums[key];
+    if (minimums[key] == 'min'){
+        min = null
+    }
     return d3.scaleLinear()
-        .domain([min ? min : d3.min(data, function (d) {
+        .domain([min !== null ? min : d3.min(data, function (d) {
             return d[key];
         }), d3.max(data, function (d) {
             return d[key];
@@ -233,9 +274,9 @@ $(function () {
 
         scales = {};
         // Compute scales
-        dims.forEach(function (dim) {
+        for (var dim in tick_formats) {
             scales[dim] = gen_scale(dim);
-        });
+        }
 
         // Compute weeks
         weeks = d3.nest().key(function (d) {

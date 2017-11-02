@@ -178,7 +178,7 @@ var RadarChart = {
         });
         series = 0;
 
-
+        var format = d3.format("0.2f");
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
         d.forEach(function (y, x) {
             g.selectAll(".nodes")
@@ -206,12 +206,11 @@ var RadarChart = {
                 .style("stroke-width", "2px")
                 .style("stroke", cfg.color(cfg.colors[series])).style("fill-opacity", .9)
                 .on('mouseover', function (d) {
-                    console.log(d.area)
                     tooltip
                         .style("left", d3.event.pageX - 40 + "px")
                         .style("top", d3.event.pageY - 80 + "px")
                         .style("display", "inline-block")
-                        .html((d.area) + "<br><span>" + (d.value) + "</span>");
+                        .html((d.area) + "<br><span>" + (format(d.value)*100) + "%</span>");
                 })
                 .on("mouseout", function (d) {
                     tooltip.style("display", "none");

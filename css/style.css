@@ -128,7 +128,7 @@ nav ul a:hover {
 
 #radar svg {
     width: 700px;
-    height: 700px;
+    height: 600px;
 }
 
 .toolTip {
@@ -136,9 +136,10 @@ nav ul a:hover {
     position: absolute;
     display: none;
     min-width: 50px;
+    font-size: 11px;
     height: auto;
     background: none repeat scroll 0 0 #ffffff;
-    padding: 9px 14px 6px 14px;
+    padding: 3px 7px 3px 7px;
     border-radius: 2px;
     text-align: center;
     line-height: 1.3;
