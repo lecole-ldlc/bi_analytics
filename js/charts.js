@@ -18,6 +18,8 @@ var formatMinutes = function (d) {
     var t = new Date(2012, 0, 1, 0, 0, d);
     return formatTime(t);
 };
+
+// The object hold how axes ticks are formatted
 var tick_formats = {
     'blog_vu': d3.format(".0f"),
     'blog_tm': formatMinutes,
@@ -52,13 +54,25 @@ var tick_formats = {
     'total_score': d3.format(".0s")
 };
 
-function variation(d, key) {
-    if (d.hasOwnProperty(key + '_prev')) {
-        var diff = d[key] - d[key + '_prev'];
+// This return an HTML string representing the variation with the previous period
+function variation(d, key, weeks, data) {
+    var prev_week = -1;
+    weeks.forEach(function (w, i) {
+        if (w === d.week && i > 0) {
+            prev_week = weeks[i - 1];
+        }
+    });
+
+    var d_prev = data.filter(function(d2){
+       return (d2.week === prev_week && d2.id === d.id);
+    })[0];
+
+    if (prev_week >= 0 && d_prev[key]) {
+        var diff = d[key] - d_prev[key];
         if (diff > 0) {
-            return '<span class="var_pos">+' + diff / d[key + '_prev'] + '%</span>';
+            return '(<span class="var_pos">+' + diff / d[key + '_prev'] + '%</span>)';
         } else {
-            return '<span class="var_neg">' + diff / d[key + '_prev'] + '%</span>';
+            return '(<span class="var_neg">' + diff / d[key + '_prev'] + '%</span>)';
         }
     } else {
         return '';
@@ -119,7 +133,13 @@ function draw_grouped_barchart(data, e, key) {
     var y = d3.scaleLinear()
         .rangeRound([height, 0]);
 
-    var weeks = [43]
+
+    var weeks = d3.nest().key(function (d) {
+        return d.week;
+    }).entries(data).map(function (d) {
+        return d.key;
+    });
+
     x0.domain(weeks);
     keys = [1, 2, 3, 4, 5]
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
@@ -159,7 +179,7 @@ function draw_grouped_barchart(data, e, key) {
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .8);
-            tooltip.html(projects_short[d.id - 1] + ' <b>' + d[key] + '</b> (' + variation(d, key) + ')')
+            tooltip.html(projects_short[d.id - 1] + ' <b>' + d[key] + '</b> ' + variation(d, key, weeks, data))
                 .style("left", d3.event.pageX + "px")
                 .style("top", d3.event.pageY + "px");
 
