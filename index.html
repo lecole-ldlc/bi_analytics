@@ -75,15 +75,15 @@
     </div>
     <div class="row">
         <div class="col-4">
-            <h4># Visiteurs uniques</h4>
+            <h4>Visiteurs</h4>
             <svg class="chart" id="blog_vu"></svg>
         </div>
         <div class="col-4">
-            <h4>Temps moyen (s)</h4>
+            <h4>Temps moyen</h4>
             <svg class="chart" id="blog_tm"></svg>
         </div>
         <div class="col-4">
-            <h4>Taux de rebond (%)</h4>
+            <h4>Taux de rebond</h4>
             <svg class="chart" id="blog_tr"></svg>
         </div>
         <div class="col-4">
@@ -95,7 +95,7 @@
             <svg class="chart" id="blog_np"></svg>
         </div>
         <div class="col-4">
-            <h4>Abonnés newsletter</h4>
+            <h4>Newsletter</h4>
             <svg class="chart" id="blog_nz"></svg>
         </div>
     </div>
@@ -106,7 +106,7 @@
     </div>
     <div class="row">
         <div class="col-4">
-            <h4>Taille de la communauté</h4>
+            <h4>Communauté</h4>
             <svg class="chart" id="fb_fa"></svg>
         </div>
         <div class="col-4">
@@ -195,7 +195,7 @@
             <svg class="chart" id="discord_ms"></svg>
         </div>
         <div class="col-4">
-            <h4>Membres salons vocaux</h4>
+            <h4>Salons vocaux</h4>
             <svg class="chart" id="discord_v"></svg>
         </div>
     </div>
@@ -214,7 +214,7 @@
             <svg class="chart" id="yt_v"></svg>
         </div>
         <div class="col-4">
-            <h4>Temps moyen passé (s)</h4>
+            <h4>Temps moyen (s)</h4>
             <svg class="chart" id="yt_t"></svg>
         </div>
     </div>
@@ -255,7 +255,7 @@
             </ul>
             <h4>KPI on Social media (facebook, twitter, instagram)</h4>
             <ul>
-                <li><b>Taille de la communauté</b> Nombre de fans/followers/subscribers à la fin de la période</li>
+                <li><b>Communauté</b> Nombre de fans/followers/subscribers à la fin de la période</li>
                 <li><b>Portée</b> Nombre d'impressions sur la période</li>
                 <li><b>Engagement</b> Nombre d'actions des visiteurs sur la période</li>
                 <li><b>Budget (€)</b> Budget dépensé sur la période</li>
@@ -263,15 +263,15 @@
             </ul>
             <h4>KPI on Discord</h4>
             <ul>
-                <li><b>Taille de la communauté</b> Nombre de membres à la fin de la période</li>
+                <li><b>Communauté</b> Nombre de membres à la fin de la période</li>
                 <li><b>Messages</b> Nombre de messages sur la période</li>
-                <li><b>Membres salon vocaux</b> Nombre de membres actifs dans les salons vocaux sur la période</li>
+                <li><b>Salon vocaux</b> Nombre de membres actifs dans les salons vocaux sur la période</li>
             </ul>
             <h4>KPI on Youtube</h4>
             <ul>
-                <li><b>Taille de la communauté</b> Nombre de membres à la fin de la période</li>
+                <li><b>Communauté</b> Nombre de membres à la fin de la période</li>
                 <li><b>Vues</b> Nombre de vues sur la période</li>
-                <li><b>Temps</b> Temps moyen de visionnage sur la période</li>
+                <li><b>Temps moyen</b> Temps moyen de visionnage sur la période</li>
             </ul>
         </div>
     </div>
@@ -303,14 +303,13 @@
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
     function legend(color, elem) {
-        console.log(elem)
         var legendRectSize = 15;
         var legendSpacing = 4;
         var svg = d3.select('#' + elem).append('svg')
             .attr('width', 960)
             .attr('height', 30);
 
-        console.log(svg)
+        console.log(svg);
         var legend = svg.selectAll('.legend')
             .data([1, 2, 3, 4, 5])
             .enter()
@@ -335,7 +334,7 @@
             .attr('y', 15)
             .text(function (d) {
                 return projects[d - 1]
-            })
+            });
     }
 
     function draw_grouped_barchart(data, e, key, color) {
@@ -356,7 +355,7 @@
         var y = d3.scaleLinear()
             .rangeRound([height, 0]);
 
-        weeks = [43]
+        var weeks = [43]
         x0.domain(weeks);
         keys = [1, 2, 3, 4, 5]
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
