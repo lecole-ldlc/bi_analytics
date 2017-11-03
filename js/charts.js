@@ -87,8 +87,12 @@ var tick_formats = {
     'yt_fa': d3.format(".0s"),
     'yt_v': d3.format(".0s"),
     'yt_t': d3.format(".0s"),
+    'rs_community': d3.format("d"),
+    'rs_engagement': d3.format("d"),
+    'rs_publications': d3.format("d"),
+    'rs_budget': d3.format(".1f"),
     'blog_score': d3.format(".1f"),
-    'fb_score': d3.format(".1f"),
+    'rs_score': d3.format(".1f"),
     'total_score': d3.format(".1f")
 };
 
@@ -121,8 +125,12 @@ var minimums = {
     'yt_fa': 0,
     'yt_v': 0,
     'yt_t': 0,
+    'rs_community': 0,
+    'rs_engagement': 0,
+    'rs_publications': 0,
+    'rs_budget': 0,
     'blog_score': 0,
-    'fb_score': 0,
+    'rs_score': 0,
     'total_score': 0
 };
 
@@ -228,10 +236,14 @@ function draw_radar(data, e, week, selected_projects) {
 }
 
 function gen_scale(key, min) {
-    var min = minimums[key];
-    if (minimums[key] == 'min') {
+    if (!min) {
+        var min = minimums[key];
+    }
+
+    if (min == 'min') {
         min = null
     }
+
     return d3.scaleLinear()
         .domain([min !== null ? min : d3.min(data, function (d) {
             return d[key];
@@ -280,9 +292,18 @@ function load_data(data_full) {
                 'yt_v': +d[i++].replace(',', '.'),
                 'yt_t': +d[i++].replace(',', '.'),
                 'blog_score': 0,
-                'fb_score': 0,
+                'rs_score': 0,
                 'total_score': 0
             });
+        }
+    });
+    data.forEach(function (d) {
+        for (var property in d) {
+            if (d.hasOwnProperty(property)) {
+                if (isNaN(d[property])){
+                    d[property] = 0;
+                }
+            }
         }
     });
     return data;
@@ -298,15 +319,25 @@ function refresh_barcharts() {
     var w = parseInt($("#main_week_select").val());
     var data_f = data.filter(function (d) {
         return (d.week == w || d.week == w - 1);
-    })
+    });
     $(".chart").each(function (index) {
         var id = $(this).attr('id');
         GroupedBarChart.draw("#" + id, data_f, bc_cfg, id);
     });
 
+    var score_cfg = {
+        color: color,
+        weeks: weeks,
+        week: w,
+    };
+    $(".chart_score").each(function (index) {
+        var id = $(this).attr('id');
+        ScoreBarChart.draw("#" + id, data_f, score_cfg, id);
+    });
+
 }
 
-function refresh_scatter(){
+function refresh_scatter() {
     var key_x = $("#scatter_x").val();
     var key_y = $("#scatter_y").val();
     var opt = {
@@ -326,9 +357,11 @@ $(function () {
         data = load_data(data_full);
 
         scales = {};
+        scales_score = {};
         // Compute scales
         for (var dim in tick_formats) {
             scales[dim] = gen_scale(dim);
+            scales_score[dim] = gen_scale(dim, 'min');
         }
 
         // Compute weeks
@@ -348,7 +381,7 @@ $(function () {
             $('.scatter_select')
                 .append($('<option>', {value: dim})
                     .text(scatter_dims[dim]))
-                ;
+            ;
             $('#scatter_x').val(scatter_default_x);
             $('#scatter_y').val(scatter_default_y);
         }
@@ -356,19 +389,39 @@ $(function () {
         // Compute scores
         data.forEach(function (d) {
 
-            d.blog_score = (scales['blog_vu'](d.blog_vu) +
-                scales['blog_tm'](d.blog_tm) +
-                scales['blog_pv'](d.blog_pv)) / 3.0 * 100.0;
-            d.fb_score = (scales['fb_fa'](d.fb_fa) +
-                scales['fb_p'](d.fb_p) +
-                scales['fb_e'](d.fb_e)) / 3.0 * 100.0;
-            d.total_score = (d.blog_score + d.fb_score) / 2.0;
+            d.blog_score = (
+                scales_score['blog_vu'](d.blog_vu) +
+                scales_score['blog_pv'](d.blog_pv) +
+                scales_score['blog_np'](d.blog_np) +
+                scales_score['blog_np'](d.blog_np) +
+                (1 - scales['blog_tr'](d.blog_tr))
+            ) / 5.0 * 100.0;
+            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.discord_m + d.yt_fa;
+            d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.discord_ms + d.yt_v;
+            d.rs_publications = d.fb_np + d.tw_np + d.insta_np;
+            d.rs_budget = d.fb_b + d.tw_b;
 
         });
 
+        scales_score['rs_community'] = gen_scale('rs_community', 'min');
+        scales_score['rs_engagement'] = gen_scale('rs_engagement', 'min');
+        scales_score['rs_publications'] = gen_scale('rs_publications', 'min');
+        scales_score['rs_budget'] = gen_scale('rs_budget', 0);
+
+        data.forEach(function (d) {
+            d.rs_score = (
+                scales_score['rs_community'](d.rs_community) +
+                scales_score['rs_engagement'](d.rs_engagement) +
+                scales_score['rs_publications'](d.rs_publications) +
+                (1 - scales_score['rs_budget'](d.rs_budget))
+            ) / 4.0 * 100.0;
+
+            d.total_score = (d.blog_score + d.rs_score) / 2.0;
+        });
+        console.log(data);
         refresh_barcharts();
         refresh_scatter();
-        draw_radar(data, '#radar', weeks[weeks.length - 1], ['1','2','3','4','5']);
+        draw_radar(data, '#radar', weeks[weeks.length - 1], ['1', '2', '3', '4', '5']);
     });
 
     $(".cb_radar").on("change", function () {
@@ -382,7 +435,7 @@ $(function () {
         refresh_barcharts();
     });
 
-    $('.scatter_select').on("change", function(){
-       refresh_scatter();
+    $('.scatter_select').on("change", function () {
+        refresh_scatter();
     });
 });

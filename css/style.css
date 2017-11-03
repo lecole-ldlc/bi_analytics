@@ -87,6 +87,11 @@ svg.chart {
     min-height: 200px;
 }
 
+svg.chart_score {
+    height: 200px;
+    min-height: 200px;
+}
+
 svg.chart_scatter {
     height: 400px;
     min-height: 400px;
