@@ -10,22 +10,11 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
 
-    <title>L'Ecole LDLC, projets "Be Influent" 2017</title>
+    <title>L'École LDLC, Be Influent 2017 analytics</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        svg {
-            height: 200px;
-            min-height: 200px;
-        }
-
-        .legend_svg svg {
-            height: 30px;
-            min-height: 30px;
-        }
-    </style>
 </head>
 
 <body>
@@ -62,6 +51,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#radar_title">Radar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#scatter_title">Scatter</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#help">Aide</a>
@@ -262,7 +254,7 @@
         <div class="col-2">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_1" value="1"/>
+                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_1" value="1" checked="checked"/>
                     Paye ta planche
                 </label>
             </div>
@@ -270,7 +262,7 @@
         <div class="col-2">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_2" value="2"/>
+                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_2" value="2" checked="checked"/>
                     Acthulhu
                 </label>
             </div>
@@ -278,7 +270,7 @@
         <div class="col-2">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_3" value="3"/>
+                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_3" value="3" checked="checked"/>
                     Red Nugget
                 </label>
             </div>
@@ -286,7 +278,7 @@
         <div class="col-2">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_4" value="4"/>
+                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_4" value="4" checked="checked"/>
                     Gamer apaisé
                 </label>
             </div>
@@ -294,7 +286,7 @@
         <div class="col-2">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_5" value="5"/>
+                    <input class="cb_radar form-check-input" type="checkbox" id="cb_radar_5" value="5" checked="checked"/>
                     Planche à repasser
                 </label>
             </div>
@@ -314,6 +306,33 @@
     <div class="row">
         <div id="radar"></div>
     </div>
+
+    <h3 class="header" id="scatter_title">Scatter</h3>
+
+    <div class="row">
+        <div class="legend_svg" id="scatter_legend"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <form class="form form-inline">
+                <div class="form-group">
+                    <label for="scatter_x">Axe X&nbsp;&nbsp;</label>
+                    <select class="form-control scatter_select" id="scatter_x">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="scatter_y">Axe Y&nbsp;&nbsp;</label>
+                    <select class="form-control scatter_select" id="scatter_y">
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="col-8">
+            <svg class="chart_scatter" id="scatter"></svg>
+        </div>
+    </div>
+
 
     <h3 class="header" id="help">Help</h3>
 
@@ -385,11 +404,12 @@
 
 <!-- Custom scripts -->
 <script src="js/grouped_bar_chart.js"></script>
+<script src="js/scatter_plot.js"></script>
 <script src="js/charts.js"></script>
 
 <script type="text/javascript">
     $(function () {
-        // sou
+
     })
 </script>
 

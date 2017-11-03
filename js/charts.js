@@ -9,15 +9,31 @@ var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
 
 // Dimensions used in the spider/radar chart, with associated name
 var radar_dims = {
-    'blog_vu': 'B/Visiteurs',
-    'blog_tm': 'B/Temps moyen',
-    'blog_pv': 'B/Pages',
-    'blog_np': 'B/Publications',
-    'fb_fa': 'FB/Communauté',
-    'fb_p': 'FB/Portée',
-    'fb_e': 'FB/Engagement',
-    'fb_np': 'FB/Publications'
+    'blog_vu': '[Blog] Visiteurs',
+    'blog_tm': '[Blog] Temps moyen',
+    'blog_pv': '[Blog] Pages',
+    'blog_np': '[Blog] Publications',
+    'fb_fa': '[FB] Communauté',
+    'fb_p': '[FB] Portée',
+    'fb_e': '[FB] Engagement',
+    'fb_np': '[FB] Publications'
 };
+
+
+// Dimensions used in the scatter plot chart, with associated name
+var scatter_dims = {
+    'blog_vu': '[Blog] Visiteurs',
+    'blog_tm': '[Blog] Temps moyen',
+    'blog_pv': '[Blog] Pages',
+    'blog_np': '[Blog] Publications',
+    'fb_fa': '[FB] Communauté',
+    'fb_p': '[FB] Portée',
+    'fb_e': '[FB] Engagement',
+    'fb_np': '[FB] Publications'
+};
+
+scatter_default_x = 'blog_np';
+scatter_default_y = 'blog_vu';
 
 // Color scale for projects
 var color = d3.scaleOrdinal([
@@ -290,6 +306,14 @@ function refresh_barcharts() {
 
 }
 
+function refresh_scatter(){
+    var key_x = $("#scatter_x").val();
+    var key_y = $("#scatter_y").val();
+    var opt = {
+        color: color
+    };
+    ScatterPlot.draw('#scatter', data, opt, key_x, key_y)
+}
 
 $(function () {
     $(".legend_svg").each(function (index) {
@@ -320,6 +344,15 @@ $(function () {
                     .text(w));
         });
 
+        for (var dim in scatter_dims) {
+            $('.scatter_select')
+                .append($('<option>', {value: dim})
+                    .text(scatter_dims[dim]))
+                ;
+            $('#scatter_x').val(scatter_default_x);
+            $('#scatter_y').val(scatter_default_y);
+        }
+
         // Compute scores
         data.forEach(function (d) {
 
@@ -334,7 +367,8 @@ $(function () {
         });
 
         refresh_barcharts();
-
+        refresh_scatter();
+        draw_radar(data, '#radar', weeks[weeks.length - 1], ['1','2','3','4','5']);
     });
 
     $(".cb_radar").on("change", function () {
@@ -346,5 +380,9 @@ $(function () {
 
     $("#main_week_select").on("change", function () {
         refresh_barcharts();
-    })
+    });
+
+    $('.scatter_select').on("change", function(){
+       refresh_scatter();
+    });
 });
