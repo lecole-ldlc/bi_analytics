@@ -49,7 +49,7 @@ var GroupedBarChart = {
                 .tickSize(-width)
                 .tickFormat("")
             );
-        
+
         // Draw bars
         g.append("g")
             .selectAll("g")

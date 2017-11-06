@@ -146,18 +146,23 @@ function variation(d, key, weeks, data) {
         }
     });
 
-    var d_prev = data.filter(function (d2) {
-        return (d2.week == prev_week && d2.id == d.id);
-    })[0];
+    if (prev_week >= 0) {
 
-    if (prev_week >= 0 && d_prev[key]) {
-        var diff = d[key] - d_prev[key];
-        if (diff > 0) {
-            return '(<span class="var_pos">+' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
-        } else if (diff == 0) {
-            return '(=)'
+        var d_prev = data.filter(function (d2) {
+            return (d2.week == prev_week && d2.id == d.id);
+        })[0];
+
+        if (d_prev && d_prev[key]) {
+            var diff = d[key] - d_prev[key];
+            if (diff > 0) {
+                return '(<span class="var_pos">+' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
+            } else if (diff == 0) {
+                return '(=)'
+            } else {
+                return '(<span class="var_neg">' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
+            }
         } else {
-            return '(<span class="var_neg">' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
+            return '';
         }
     } else {
         return '';
@@ -247,7 +252,9 @@ function gen_scale(key, min) {
         min = null
     }
     return d3.scaleLinear()
-        .domain([min !== null ? min : d3.min(data.filter(function(d){return d[key] > 0}), function (d) {
+        .domain([min !== null ? min : d3.min(data.filter(function (d) {
+            return d[key] > 0
+        }), function (d) {
             return d[key];
         }), d3.max(data, function (d) {
             return d[key];
@@ -405,8 +412,8 @@ $(function () {
         data.forEach(function (d) {
 
             d.blog_score = (
-                2*Math.max(0, scales_score['blog_vu'](d.blog_vu))
-                + 3*Math.max(0, scales_score['blog_pv'](d.blog_pv))
+                2 * Math.max(0, scales_score['blog_vu'](d.blog_vu))
+                + 3 * Math.max(0, scales_score['blog_pv'](d.blog_pv))
                 // + scales_score['blog_np'](d.blog_np)
                 // + scales_score['blog_nz'](d.blog_nz)
                 + (1 - Math.max(0, scales['blog_tr'](d.blog_tr)))
@@ -425,10 +432,10 @@ $(function () {
 
         data.forEach(function (d) {
             d.rs_score = (
-                2*Math.max(0, scales_score['rs_community'](d.rs_community)) +
-                3*Math.max(0, scales_score['rs_engagement'](d.rs_engagement)) +
-                1*Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
-                2*(1 - Math.max(0, scales_score['rs_budget'](d.rs_budget)))
+                2 * Math.max(0, scales_score['rs_community'](d.rs_community)) +
+                3 * Math.max(0, scales_score['rs_engagement'](d.rs_engagement)) +
+                1 * Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
+                2 * (1 - Math.max(0, scales_score['rs_budget'](d.rs_budget)))
             ) / 8.0 * 100.0;
             d.total_score = (d.blog_score + d.rs_score) / 2.0;
         });

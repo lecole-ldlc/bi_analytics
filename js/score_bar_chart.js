@@ -31,6 +31,9 @@ var ScoreBarChart = {
         var y = d3.scaleBand()
             .range([height, 0]);
 
+        data = data.filter(function(d){
+            return !isNaN(d[key]) && d.week == cfg.week;
+        });
         data.sort(function (x, y) {
             return d3.ascending(x[key], y[key]);
         });
