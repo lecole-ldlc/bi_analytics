@@ -50,6 +50,7 @@ var ScoreBarChart = {
                 return parseInt(d);
             }).tickSizeInner([-height]));
 
+
         var bars = g.selectAll(".bar")
             .data(data)
             .enter().append("g")

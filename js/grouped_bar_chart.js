@@ -42,6 +42,14 @@ var GroupedBarChart = {
             return d[key];
         })]).nice();
 
+        g.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y)
+                .ticks(8)
+                .tickSize(-width)
+                .tickFormat("")
+            );
+        
         // Draw bars
         g.append("g")
             .selectAll("g")

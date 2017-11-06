@@ -54,6 +54,23 @@ var ScoreLineChart = {
             return +d.key;
         });
 
+
+        g.append("g")
+            .attr("class", "grid")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x)
+                .ticks(8)
+                .tickSize(-height)
+                .tickFormat("")
+            );
+        g.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y)
+                .ticks(8)
+                .tickSize(-width)
+                .tickFormat("")
+            );
+
         g.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
