@@ -28,7 +28,6 @@ jQuery(document).ready(function ($) {
     $(document).on('click', 'a[href^="#"]', function (event) {
         event.preventDefault();
         if ($($.attr(this, 'href')).offset()) {
-
             $('html, body').animate({
                 scrollTop: $($.attr(this, 'href')).offset().top - 65
             }, 500);

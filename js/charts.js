@@ -440,6 +440,8 @@ $(function () {
             d.total_score = (d.blog_score + d.rs_score) / 2.0;
         });
 
+        $('.week_select').val(weeks[weeks.length-1]);
+
         refresh_barcharts();
         refresh_scatter();
         draw_radar(data, '#radar', ['1', '2', '3', '4', '5']);
