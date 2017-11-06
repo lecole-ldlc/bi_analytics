@@ -19,14 +19,14 @@ var GroupedBarChart = {
         }
         $(id).html('');
         var svg = d3.select(id),
-            margin = {top: 5, right: 10, bottom: 20, left: 40},
+            margin = {top: 5, right: 10, bottom: 20, left: 45},
             width = cfg.w - margin.left - margin.right,
             height = cfg.h - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var x0 = d3.scaleBand()
             .rangeRound([0, width])
-            .paddingInner(0.1);
+            .paddingInner(0.3);
 
         var x1 = d3.scaleBand()
             .padding(0.05);
@@ -35,7 +35,6 @@ var GroupedBarChart = {
             .rangeRound([height, 0]);
 
         var keys = cfg.projects;
-
         // Set domains
         x0.domain(cfg.weeks);
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
@@ -43,6 +42,7 @@ var GroupedBarChart = {
             return d[key];
         })]).nice();
 
+        console.log(data);
         // Draw bars
         g.append("g")
             .selectAll("g")
@@ -52,7 +52,7 @@ var GroupedBarChart = {
                 return "translate(" + x0(d) + ",0)";
             })
             .selectAll("rect")
-            .data(data)
+            .data(function(d) { return data.filter(function(dd){return dd.week == d;})})
             .enter()
             .filter(function (d) {
                 return !isNaN(+d[key]);

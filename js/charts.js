@@ -67,17 +67,17 @@ var tick_formats = {
     'blog_np': d3.format(".0f"),
     'blog_nz': d3.format("d"),
     'fb_fa': d3.format(".0f"),
-    'fb_p': d3.format(".1s"),
+    'fb_p': d3.format(".2s"),
     'fb_e': d3.format(".0f"),
     'fb_b': d3.format(".0f"),
     'fb_np': d3.format("d"),
     'tw_fa': d3.format(".0f"),
-    'tw_p': d3.format(".1s"),
+    'tw_p': d3.format(".2s"),
     'tw_e': d3.format(".0f"),
     'tw_b': d3.format(".0f"),
     'tw_np': d3.format("d"),
     'insta_fa': d3.format(".0f"),
-    'insta_p': d3.format(".1s"),
+    'insta_p': d3.format(".2s"),
     'insta_e': d3.format(".0f"),
     'insta_b': d3.format(".0s"),
     'insta_np': d3.format("d"),
@@ -138,6 +138,7 @@ var minimums = {
 // This return an HTML string representing the variation with the previous period
 function variation(d, key, weeks, data) {
     var prev_week = -1;
+    console.log(d.week);
 
     // Get the previous week
     weeks.forEach(function (w, i) {
@@ -146,6 +147,7 @@ function variation(d, key, weeks, data) {
         }
     });
 
+    console.log(prev_week);
     var d_prev = data.filter(function (d2) {
         return (d2.week == prev_week && d2.id == d.id);
     })[0];
@@ -154,6 +156,8 @@ function variation(d, key, weeks, data) {
         var diff = d[key] - d_prev[key];
         if (diff > 0) {
             return '(<span class="var_pos">+' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
+        } else if (diff == 0){
+            return '(=)'
         } else {
             return '(<span class="var_neg">' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
         }
@@ -200,10 +204,7 @@ function legend(elem) {
 function draw_radar(data, e, selected_projects) {
     $(e).html('');
 
-    console.log("REDRAW RADAR");
-    console.log(selected_projects);
-    console.log(data);
-    var week = $("#radar_week_select").val();
+    var week = $("#main_week_select").val();
 
     data_t = [];
     var cols = [0, 1, 2, 3, 4, 5]
@@ -230,7 +231,6 @@ function draw_radar(data, e, selected_projects) {
         color: color,
     };
 
-    console.log(data_t);
     if (data_t.length > 0) {
         RadarChart.draw(e, data_t, mycfg);
     }
@@ -305,7 +305,7 @@ function load_data(data_full) {
     data.forEach(function (d) {
         for (var property in d) {
             if (d.hasOwnProperty(property)) {
-                if (isNaN(d[property])){
+                if (isNaN(d[property])) {
                     d[property] = 0;
                 }
             }
@@ -316,15 +316,24 @@ function load_data(data_full) {
 
 function refresh_barcharts() {
     // Draw barcharts
+
+
+    var w = parseInt($("#main_week_select").val());
+    var data_f = data.filter(function (d) {
+        return (d.week == w || d.week == w - 1 || d.week == w - 2);
+    });
+
+    var weeks = d3.nest().key(function (d) {
+        return d.week;
+    }).entries(data_f).map(function (d) {
+        return +d.key;
+    });
+
     var bc_cfg = {
         color: color,
         weeks: weeks,
     };
 
-    var w = parseInt($("#main_week_select").val());
-    var data_f = data.filter(function (d) {
-        return (d.week == w || d.week == w - 1);
-    });
     $(".chart").each(function (index) {
         var id = $(this).attr('id');
         GroupedBarChart.draw("#" + id, data_f, bc_cfg, id);
@@ -368,12 +377,12 @@ $(function () {
             scales[dim] = gen_scale(dim);
             scales_score[dim] = gen_scale(dim, 'min');
         }
-
+        console.log(data);
         // Compute weeks
-        weeks = d3.nest().key(function (d) {
+        var weeks = d3.nest().key(function (d) {
             return d.week;
         }).entries(data).map(function (d) {
-            return d.key;
+            return +d.key;
         });
 
         weeks.forEach(function (w) {
@@ -429,7 +438,7 @@ $(function () {
         draw_radar(data, '#radar', ['1', '2', '3', '4', '5']);
     });
 
-    $(".cb_radar, #radar_week_select").on("change", function () {
+    $(".cb_radar, #main_week_select").on("change", function () {
         var pr = $('.cb_radar:checked').map(function () {
             return this.value;
         }).get();
