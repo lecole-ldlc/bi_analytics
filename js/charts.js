@@ -376,7 +376,7 @@ $(function () {
         // Compute scales
         for (var dim in tick_formats) {
             scales[dim] = gen_scale(dim);
-            scales_score[dim] = gen_scale(dim, 'min');
+            scales_score[dim] = gen_scale(dim, 0);
         }
         console.log(data);
         // Compute weeks
@@ -418,9 +418,9 @@ $(function () {
 
         });
 
-        scales_score['rs_community'] = gen_scale('rs_community', 'min');
-        scales_score['rs_engagement'] = gen_scale('rs_engagement', 'min');
-        scales_score['rs_publications'] = gen_scale('rs_publications', 'min');
+        scales_score['rs_community'] = gen_scale('rs_community', 0);
+        scales_score['rs_engagement'] = gen_scale('rs_engagement', 0);
+        scales_score['rs_publications'] = gen_scale('rs_publications', 0);
         scales_score['rs_budget'] = gen_scale('rs_budget', 0);
 
         data.forEach(function (d) {
