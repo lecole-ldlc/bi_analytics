@@ -138,7 +138,6 @@ var minimums = {
 // This return an HTML string representing the variation with the previous period
 function variation(d, key, weeks, data) {
     var prev_week = -1;
-    console.log(d.week);
 
     // Get the previous week
     weeks.forEach(function (w, i) {
@@ -147,7 +146,6 @@ function variation(d, key, weeks, data) {
         }
     });
 
-    console.log(prev_week);
     var d_prev = data.filter(function (d2) {
         return (d2.week == prev_week && d2.id == d.id);
     })[0];
@@ -156,7 +154,7 @@ function variation(d, key, weeks, data) {
         var diff = d[key] - d_prev[key];
         if (diff > 0) {
             return '(<span class="var_pos">+' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
-        } else if (diff == 0){
+        } else if (diff == 0) {
             return '(=)'
         } else {
             return '(<span class="var_neg">' + percent_format(diff / d_prev[key] * 100) + '%</span>)';
@@ -242,15 +240,14 @@ function draw_radar(data, e, selected_projects) {
 
 function gen_scale(key, min) {
     if (!min) {
-        var min = minimums[key];
+        min = minimums[key];
     }
 
     if (min == 'min') {
         min = null
     }
-
     return d3.scaleLinear()
-        .domain([min !== null ? min : d3.min(data, function (d) {
+        .domain([min !== null ? min : d3.min(data.filter(function(d){return d[key] > 0}), function (d) {
             return d[key];
         }), d3.max(data, function (d) {
             return d[key];
@@ -302,6 +299,7 @@ function load_data(data_full) {
             });
         }
     });
+
     data.forEach(function (d) {
         for (var property in d) {
             if (d.hasOwnProperty(property)) {
@@ -311,6 +309,7 @@ function load_data(data_full) {
             }
         }
     });
+
     return data;
 }
 
@@ -335,8 +334,9 @@ function refresh_barcharts() {
     };
 
     $(".chart").each(function (index) {
+        var key = $(this).attr('data-key');
         var id = $(this).attr('id');
-        GroupedBarChart.draw("#" + id, data_f, bc_cfg, id);
+        GroupedBarChart.draw("#" + id, data_f, bc_cfg, key);
     });
 
     var score_cfg = {
@@ -346,7 +346,8 @@ function refresh_barcharts() {
     };
     $(".chart_score").each(function (index) {
         var id = $(this).attr('id');
-        ScoreBarChart.draw("#" + id, data_f, score_cfg, id);
+        var key = $(this).attr('data-key');
+        ScoreBarChart.draw("#" + id, data_f, score_cfg, key);
     });
 
 }
@@ -404,13 +405,13 @@ $(function () {
         data.forEach(function (d) {
 
             d.blog_score = (
-                scales_score['blog_vu'](d.blog_vu) +
-                scales_score['blog_pv'](d.blog_pv) +
-                scales_score['blog_np'](d.blog_np) +
-                scales_score['blog_np'](d.blog_np) +
-                (1 - scales['blog_tr'](d.blog_tr))
-            ) / 5.0 * 100.0;
-            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.discord_m + d.yt_fa;
+                2*Math.max(0, scales_score['blog_vu'](d.blog_vu))
+                + 3*Math.max(0, scales_score['blog_pv'](d.blog_pv))
+                // + scales_score['blog_np'](d.blog_np)
+                // + scales_score['blog_nz'](d.blog_nz)
+                + (1 - Math.max(0, scales['blog_tr'](d.blog_tr)))
+            ) / 6.0 * 100.0;
+            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.discord_m + d.yt_fa + d.blog_nz;
             d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.discord_ms + d.yt_v;
             d.rs_publications = d.fb_np + d.tw_np + d.insta_np;
             d.rs_budget = d.fb_b + d.tw_b;
@@ -424,18 +425,27 @@ $(function () {
 
         data.forEach(function (d) {
             d.rs_score = (
-                scales_score['rs_community'](d.rs_community) +
-                scales_score['rs_engagement'](d.rs_engagement) +
-                scales_score['rs_publications'](d.rs_publications) +
-                (1 - scales_score['rs_budget'](d.rs_budget))
-            ) / 4.0 * 100.0;
-
+                2*Math.max(0, scales_score['rs_community'](d.rs_community)) +
+                3*Math.max(0, scales_score['rs_engagement'](d.rs_engagement)) +
+                1*Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
+                2*(1 - Math.max(0, scales_score['rs_budget'](d.rs_budget)))
+            ) / 8.0 * 100.0;
             d.total_score = (d.blog_score + d.rs_score) / 2.0;
         });
-        console.log(data);
+
         refresh_barcharts();
         refresh_scatter();
         draw_radar(data, '#radar', ['1', '2', '3', '4', '5']);
+
+        var score_hist_cfg = {
+            color: color,
+        };
+        $(".chart_score_hist").each(function (index) {
+            var key = $(this).attr('data-key');
+            var id = $(this).attr('id');
+            ScoreLineChart.draw("#" + id, data, score_hist_cfg, key);
+        });
+
     });
 
     $(".cb_radar, #main_week_select").on("change", function () {

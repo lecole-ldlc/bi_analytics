@@ -92,6 +92,11 @@ svg.chart_score {
     min-height: 200px;
 }
 
+svg.chart_score_hist {
+    height: 200px;
+    min-height: 200px;
+}
+
 svg.chart_scatter {
     height: 400px;
     min-height: 400px;
@@ -128,7 +133,7 @@ nav ul a:hover {
     height: 18px;
     padding: 2px;
     font-size: 10px;
-    background-color: white;
+    background-color: #ccc;
     border: 1px black;
     border-radius: 3px;
     margin-left: -25px;
@@ -185,7 +190,7 @@ nav ul a:hover {
     min-width: 100px;
     font-size: 11px;
     height: auto;
-    background: none repeat scroll 0 0 #ffffff;
+    background: none repeat scroll 0 0 #999;
     padding: 3px 7px 3px 7px;
     border-radius: 2px;
     text-align: center;
@@ -214,4 +219,10 @@ nav ul a:hover {
 
 .score_label {
     font-size: 10px;
+}
+
+path.line_score {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2.5px;
 }

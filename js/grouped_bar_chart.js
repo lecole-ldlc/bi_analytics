@@ -6,7 +6,7 @@ var GroupedBarChart = {
             w: 300,
             h: 200,
             weeks: [43],
-            projects: [1,2,3,4,5],
+            projects: [1, 2, 3, 4, 5],
             color: d3.scaleOrdinal(d3.schemeCategory10)
         };
 
@@ -42,7 +42,6 @@ var GroupedBarChart = {
             return d[key];
         })]).nice();
 
-        console.log(data);
         // Draw bars
         g.append("g")
             .selectAll("g")
@@ -52,7 +51,11 @@ var GroupedBarChart = {
                 return "translate(" + x0(d) + ",0)";
             })
             .selectAll("rect")
-            .data(function(d) { return data.filter(function(dd){return dd.week == d;})})
+            .data(function (d) {
+                return data.filter(function (dd) {
+                    return dd.week == d;
+                })
+            })
             .enter()
             .filter(function (d) {
                 return !isNaN(+d[key]);
@@ -69,7 +72,7 @@ var GroupedBarChart = {
                 return height - y(d[key]);
             })
             .attr("fill", function (d) {
-                return color(d.id);
+                return cfg.color(d.id);
             })
             .on("mouseover", function (d) {
                 d3.select(this).transition().duration(100)
@@ -94,7 +97,7 @@ var GroupedBarChart = {
                 tooltip.transition()
                     .duration(500)
                     .style("opacity", 0);
-            })
+            });
 
         g.append("g")
             .attr("class", "axis")

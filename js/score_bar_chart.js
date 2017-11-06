@@ -77,7 +77,7 @@ var ScoreBarChart = {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .8);
-                tooltip.html(projects_short[d.id - 1] + ' <b>' + tick_formats[key](d[key]) + '</b> ' + variation(d, key, cfg.weeks, data))
+                tooltip.html('<b>' + tick_formats[key](d[key]) + '</b> ' + variation(d, key, cfg.weeks, data))
                     .style("left", d3.event.pageX + "px")
                     .style("top", d3.event.pageY + "px");
 
@@ -103,7 +103,9 @@ var ScoreBarChart = {
                 return y(d.id) + 8;
             })
             .attr('color', "#333")
-            .attr('dy', '0.7em')
-            .text(function(d, i){return (5-i).toString() + ' : ' + projects[d.id-1];})
+            .attr('dy', '8')
+            .text(function (d, i) {
+                return (5 - i).toString() + ' : ' + projects[d.id - 1];
+            })
     }
 };
