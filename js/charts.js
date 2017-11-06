@@ -197,8 +197,13 @@ function legend(elem) {
 }
 
 // Filter the data and renders a radar chart
-function draw_radar(data, e, week, selected_projects) {
+function draw_radar(data, e, selected_projects) {
     $(e).html('');
+
+    console.log("REDRAW RADAR");
+    console.log(selected_projects);
+    console.log(data);
+    var week = $("#radar_week_select").val();
 
     data_t = [];
     var cols = [0, 1, 2, 3, 4, 5]
@@ -225,7 +230,7 @@ function draw_radar(data, e, week, selected_projects) {
         color: color,
     };
 
-    //console.log(data_t);
+    console.log(data_t);
     if (data_t.length > 0) {
         RadarChart.draw(e, data_t, mycfg);
     }
@@ -421,14 +426,14 @@ $(function () {
         console.log(data);
         refresh_barcharts();
         refresh_scatter();
-        draw_radar(data, '#radar', weeks[weeks.length - 1], ['1', '2', '3', '4', '5']);
+        draw_radar(data, '#radar', ['1', '2', '3', '4', '5']);
     });
 
-    $(".cb_radar").on("change", function () {
+    $(".cb_radar, #radar_week_select").on("change", function () {
         var pr = $('.cb_radar:checked').map(function () {
             return this.value;
         }).get();
-        draw_radar(data, '#radar', weeks[weeks.length - 1], pr);
+        draw_radar(data, '#radar', pr);
     });
 
     $("#main_week_select").on("change", function () {

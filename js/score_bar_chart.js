@@ -32,13 +32,15 @@ var ScoreBarChart = {
             .range([height, 0]);
 
         data.sort(function (x, y) {
-                return d3.ascending(x[key], y[key]);
-            });
+            return d3.ascending(x[key], y[key]);
+        });
 
         // Set domains
         x.domain([0, 100]);
-        y.domain(data.map(function(d) { return d.id; }))
-        .padding(0.1);
+        y.domain(data.map(function (d) {
+            return d.id;
+        }))
+            .padding(0.1);
 
 
         g.append("g")
@@ -48,9 +50,12 @@ var ScoreBarChart = {
                 return parseInt(d);
             }).tickSizeInner([-height]));
 
-        g.selectAll(".bar")
+        var bars = g.selectAll(".bar")
             .data(data)
-            .enter().append("rect")
+            .enter().append("g")
+            .attr("class", 'bar_group')
+
+        bars.append("rect")
             .filter(function (d) {
                 return d.week == cfg.week;
             })
@@ -91,5 +96,14 @@ var ScoreBarChart = {
                     .style("opacity", 0);
             })
 
+        bars.append('text')
+            .attr('class', 'score_label')
+            .attr('x', 5)
+            .attr('y', function (d) {
+                return y(d.id) + 8;
+            })
+            .attr('color', "#333")
+            .attr('dy', '0.7em')
+            .text(function(d, i){return (5-i).toString() + ' : ' + projects[d.id-1];})
     }
 };

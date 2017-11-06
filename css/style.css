@@ -211,3 +211,7 @@ nav ul a:hover {
     font-weight: 500;
     color: #081F2C;
 }
+
+.score_label {
+    font-size: 10px;
+}
