@@ -44,6 +44,17 @@ var color = d3.scaleOrdinal([
     'rgb(148, 103, 189)' // La planche à repasser
 ]);
 
+var color_text = d3.scaleOrdinal([
+    '#ddd', // Paye ta planche
+    '#333', // Acthulu
+    '#ddd', // Red nugget
+    '#333', // Au gamer apaisé
+    '#ddd' // La planche à repasser
+]);
+
+color_text.domain(['1','2','3','4','5']);
+color.domain(['1','2','3','4','5']);
+
 // Tooltip element used to display additional information
 var tooltip = d3.select('body').append("div")
     .attr("class", "tooltip")
@@ -320,7 +331,7 @@ function load_data(data_full) {
     return data;
 }
 
-function refresh_barcharts() {
+function refresh_charts() {
     // Draw barcharts
 
 
@@ -348,6 +359,7 @@ function refresh_barcharts() {
 
     var score_cfg = {
         color: color,
+        color_text: color_text,
         weeks: weeks,
         week: w,
     };
@@ -437,12 +449,17 @@ $(function () {
                 1 * Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
                 2 * (1 - Math.max(0, scales_score['rs_budget'](d.rs_budget)))
             ) / 8.0 * 100.0;
-            d.total_score = (d.blog_score + d.rs_score) / 2.0;
+            // Do not take blog score into account for Gamer Apaisé
+            if (d.id != '4'){
+                d.total_score = (d.blog_score + d.rs_score) / 2.0;
+            } else {
+                d.total_score = d.rs_score;
+            }
         });
 
         $('.week_select').val(weeks[weeks.length-1]);
 
-        refresh_barcharts();
+        refresh_charts();
         refresh_scatter();
         draw_radar(data, '#radar', ['1', '2', '3', '4', '5']);
 
@@ -465,7 +482,7 @@ $(function () {
     });
 
     $("#main_week_select").on("change", function () {
-        refresh_barcharts();
+        refresh_charts();
     });
 
     $('.scatter_select').on("change", function () {
