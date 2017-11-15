@@ -351,7 +351,7 @@ function refresh_charts() {
         weeks: weeks,
     };
 
-    $(".chart").each(function (index) {
+    $(".chart_bar").each(function (index) {
         var key = $(this).attr('data-key');
         var id = $(this).attr('id');
         GroupedBarChart.draw("#" + id, data_f, bc_cfg, key);
@@ -367,6 +367,27 @@ function refresh_charts() {
         var id = $(this).attr('id');
         var key = $(this).attr('data-key');
         ScoreBarChart.draw("#" + id, data_f, score_cfg, key);
+    });
+
+    var score_stacked_cfg = {
+        weeks: weeks,
+        week: w,
+    };
+
+    $(".chart_stacked_score").each(function (index) {
+        var id = $(this).attr('id');
+        var key = $(this).attr('data-key');
+        if (key === 'blog_score') {
+            parts = ['blog_vu', 'blog_pv', 'blog_tr'];
+            coefs = {'blog_vu': 5, 'blog_pv': 3, 'blog_tr': -5};
+        } else if (key === 'rs_score') {
+            parts = ['rs_community', 'rs_engagement', 'rs_publication', 'rs_budget']
+            coefs = {'rs_community': 2, 'rs_engagement': 3, 'rs_publication': 1, 'rs_budget': -2};
+        } else if (key === 'total_score') {
+            parts = ['blog_score', 'rs_score'];
+            coefs = {'blog_score': 1, 'rs_score': 1};
+        }
+        ScoreStackedBarChart.draw("#" + id, data_f, score_stacked_cfg, parts, coefs);
     });
 
 }
@@ -463,8 +484,8 @@ $(function () {
                 ) / 2.0 * 100.0;
             } else {
                 d.total_score = (
-                    1*scales_score['blog_score'](d.blog_score)
-                    + 2*scales_score['blog_score'](d.rs_score)
+                    1 * scales_score['blog_score'](d.blog_score)
+                    + 2 * scales_score['blog_score'](d.rs_score)
                 ) / 3.0 * 100.0;
             }
         });

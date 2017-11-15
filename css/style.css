@@ -164,6 +164,12 @@ nav ul a:hover {
     shape-rendering: crispEdges;
 }
 
+.tick line {
+    fill: none;
+    stroke: #666;
+    shape-rendering: crispEdges;
+
+}
 .grid line {
   stroke: lightgrey;
   stroke-opacity: 0.7;
