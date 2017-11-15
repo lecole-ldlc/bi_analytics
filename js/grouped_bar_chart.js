@@ -114,7 +114,7 @@ var GroupedBarChart = {
 
         g.append("g")
             .attr("class", "axis")
-            .call(d3.axisLeft(y).tickFormat(tick_formats[key]))
+            .call(d3.axisLeft(y).ticks(5).tickFormat(tick_formats[key]))
 
 
     }
