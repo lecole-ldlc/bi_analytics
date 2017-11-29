@@ -429,9 +429,7 @@ $(function () {
     $.get(URL, function (textString) {
         console.log("data loaded");
         data_full = d3.csvParseRows(textString);
-        console.log(data_full);
         data = load_data(data_full);
-        console.log(data);
         scales = {};
         scales_score = {};
         // Compute scales
@@ -439,8 +437,7 @@ $(function () {
             scales[dim] = gen_scale(dim);
             scales_score[dim] = gen_scale(dim, 0);
         }
-        console.log(data);
-        // Compute weeks
+        // Compxute weeks
         var weeks = d3.nest().key(function (d) {
             return d.week;
         }).entries(data).map(function (d) {

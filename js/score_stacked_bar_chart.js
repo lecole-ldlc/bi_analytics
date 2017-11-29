@@ -197,7 +197,7 @@ var ScoreStackedBarChart = {
                     .duration(500)
                     .style("opacity", 0);
             });
-        
+
 
         var bars = g.append("g")
             .selectAll("g")
