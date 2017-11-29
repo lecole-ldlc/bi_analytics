@@ -1,39 +1,30 @@
 // Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
 
-var ScoreStackedBarChart = {
-    compute_total: function (parts, coefs, d) {
+var RsStackedBarChart = {
+    compute_total: function (parts, d) {
         total = 0;
         for (var i in parts) {
-            key = parts[i];
-            if (coefs[key] > 0) {
-                total += coefs[key] * this.scales[key](d[key]);
-            } else {
-                total += -coefs[key] * (1 - this.scales[key](d[key]));
-            }
+            total += d[parts[i]];
         }
         return total;
     },
-    draw: function (id, data, options, parts, coefs) {
+    draw: function (id, data, options, parts) {
         var cfg = {
             w: 350,
             h: 200,
             opacity: 1,
-            opacity_prev: 0.7,
+            opacity_prev: 0.75,
             week: 43,
             weeks: [43],
             projects: [1, 2, 3, 4, 5],
             color: d3.scaleOrdinal(d3.schemeCategory10),
-            color_text: d3.scaleOrdinal(["#eee"]),
+            color_text: d3.scaleOrdinal(["#222"]),
             metric_labels: {
-                'blog_pv': 'Pages vues',
-                'blog_vu': 'Visiteurs',
-                'blog_tr': 'Taux de rebond',
-                'rs_community': 'Communauté',
-                'rs_engagement': 'Engagement',
-                'rs_budget': 'Budget',
-                'rs_publication': 'Publications',
-                'blog_score': 'Blog',
-                'rs_score': 'Réseaux sociaux',
+                'fb': 'Facebook',
+                'insta': 'Instagram',
+                'tw': 'Twitter',
+                'yt': 'Youtube',
+                'discord': 'Discord',
             }
         };
 
@@ -69,17 +60,9 @@ var ScoreStackedBarChart = {
                     d[parts[i]] = 0;
                 }
             }
-        })
-        this.scales = {};
-        for (var i in parts) {
-            this.scales[parts[i]] = d3.scaleLinear()
-                .domain([0, d3.max(data, function (d) {
-                    return d[parts[i]];
-                })])
-                .range([0, 1]);
-        }
+        });
         data_f.forEach(function (d) {
-            d.total = self.compute_total(parts, coefs, d);
+            d.total = self.compute_total(parts, d);
         });
         data_f.sort(function (x, y) {
             return x.total > y.total;
@@ -90,7 +73,12 @@ var ScoreStackedBarChart = {
         data_f.forEach(function (d) {
             data.forEach(function (d2) {
                 if (d2.id == d.id && d2.week == (d.week - 1)) {
-                    d2.total = self.compute_total(parts, coefs, d2);
+                    for (var i in parts) {
+                        if (isNaN(d2[parts[i]])) {
+                            d2[parts[i]] = 0;
+                        }
+                    }
+                    d2.total = self.compute_total(parts, d2);
                     data_fp.push(d2);
                 }
             });
@@ -98,29 +86,28 @@ var ScoreStackedBarChart = {
         data_stack = d3.stack()
             .keys(parts)
             .value(function (d, key) {
-                return coefs[key] > 0 ? self.scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - self.scales[key](d[key]));
+                return d[key];
             })
             (data_f);
         data_stack_p = d3.stack()
             .keys(parts)
             .value(function (d, key) {
-                return coefs[key] > 0 ? self.scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - self.scales[key](d[key]));
+                return d[key];
             })
             (data_fp);
 
         // Set domains
         max_data = d3.max(data_f, function (d) {
-            return d.total
+            return d.total;
         });
         max_data_p = d3.max(data_fp, function (d) {
-            return d.total
+            return d.total;
         });
         x.domain([0, d3.max([max_data, max_data_p])]).nice();
         y.domain(data_f.map(function (d) {
             return d.id;
         }))
-            .padding(0.1);
-
+            .padding(0.15);
         g.append("g")
             .attr("class", "grid")
             .attr("transform", "translate(0," + height + ")")
@@ -170,21 +157,22 @@ var ScoreStackedBarChart = {
             })
             .attr("width", function (d) {
                 return x(d[1]) - x(d[0]);
-            }).on("mouseover", function (d) {
-            var k = d3.select(this.parentNode).datum().key;
-            d3.select(this).transition().duration(100)
-                .style("opacity", cfg.opacity - 0.1);
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", .8);
-            tooltip.html(cfg.metric_labels[k]
-                + ' <b>' +
-                tick_formats[k](d.data[k])
-                + '</b>')
-                .style("left", d3.event.pageX + "px")
-                .style("top", d3.event.pageY + "px");
+            })
+            .on("mouseover", function (d) {
+                var k = d3.select(this.parentNode).datum().key;
+                d3.select(this).transition().duration(100)
+                    .style("opacity", cfg.opacity - 0.1);
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .8);
+                tooltip.html(cfg.metric_labels[k.split("_")[0]]
+                    + ' <b>' +
+                    tick_formats[k](d.data[k])
+                    + '</b>')
+                    .style("left", d3.event.pageX + "px")
+                    .style("top", d3.event.pageY + "px");
 
-        })
+            })
             .on("mousemove", function (d) {
                 tooltip
                     .style("left", d3.event.pageX + "px")
@@ -197,7 +185,7 @@ var ScoreStackedBarChart = {
                     .duration(500)
                     .style("opacity", 0);
             });
-        
+        ;
 
         var bars = g.append("g")
             .selectAll("g")
@@ -233,7 +221,7 @@ var ScoreStackedBarChart = {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .8);
-                tooltip.html(cfg.metric_labels[k]
+                tooltip.html(cfg.metric_labels[k.split("_")[0]]
                     + ' <b>' +
                     tick_formats[k](d.data[k])
                     + '</b>')

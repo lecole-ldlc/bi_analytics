@@ -221,10 +221,34 @@
     </div>
 
     <h3 class="header" id="rs">Réseaux sociaux</h3>
+    <h4 class="header" id="rs">Segmentation</h4>
     <div class="row">
         <div class="legend_svg" id="rs_legend"></div>
     </div>
 
+    <div class="row">
+        <div class="col-4">
+            <h4>Communauté</h4>
+            <svg class="chart chart_stack" data-key="rs_community" id="rs_community_stack"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Engagement</h4>
+            <svg class="chart chart_stack" data-key="rs_engagement" id="rs_engagement_stack"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Publications</h4>
+            <svg class="chart chart_stack" data-key="rs_publications" id="rs_publications_stack"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Budget</h4>
+            <svg class="chart chart_stack" data-key="rs_budget" id="rs_budget_stack"></svg>
+        </div>
+        <div class="col-4">
+            <h4>Portée</h4>
+            <svg class="chart chart_stack" data-key="rs_reach" id="rs_reach_stack"></svg>
+        </div>
+    </div>
+    <h4 class="header" id="rs">Historique</h4>
     <div class="row">
         <div class="col-4">
             <h4>Communauté</h4>
@@ -340,7 +364,7 @@
         </div>
         <div class="col-4">
             <h4>Salons vocaux</h4>
-            <svg class="chart chart_bar" data-key="discord_v"  id="discord_v_bar"></svg>
+            <svg class="chart chart_bar" data-key="discord_v" id="discord_v_bar"></svg>
         </div>
     </div>
 
@@ -455,6 +479,7 @@
 <script src="js/score_bar_chart.js"></script>
 <script src="js/score_line_chart.js"></script>
 <script src="js/score_stacked_bar_chart.js"></script>
+<script src="js/rs_stacked_bar_chart.js"></script>
 <script src="js/charts.js"></script>
 
 <script type="text/javascript">

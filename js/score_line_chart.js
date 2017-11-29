@@ -5,7 +5,7 @@ var ScoreLineChart = {
         var cfg = {
             w: 350,
             h: 200,
-            radius: 5,
+            radius: 3,
             projects: [1, 2, 3, 4, 5],
             color: d3.scaleOrdinal(d3.schemeCategory10)
         };
@@ -43,7 +43,7 @@ var ScoreLineChart = {
         });
         var nw = max_w - 43;
         // Set domains
-        x.domain([42, max_w + 1]);
+        x.domain([42.7, max_w + 1]);
         y.domain([0, d3.max(data, function (d) {
             return d[key];
         })]);
@@ -80,49 +80,6 @@ var ScoreLineChart = {
             .attr("class", "y axis")
             .call(d3.axisLeft(y));
 
-        g.selectAll(".dot")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("class", "dot")
-            .attr("cx", function (d) {
-                return x(d.week)
-            })
-            .attr("cy", function (d) {
-                return y(d[key])
-            })
-            .attr("r", cfg.radius)
-            .attr("stroke", function (d) {
-                return cfg.color(d.id)
-            })
-            .attr("fill", function (d) {
-                return cfg.color(d.id)
-            })
-            .on("mouseover", function (d) {
-                d3.select(this).transition().duration(100)
-                    .attr("r", cfg.radius + 2);
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .8);
-                tooltip.html('<b>' + tick_formats[key](d[key]) + '</b> ' + variation(d, key, weeks, data))
-                    .style("left", d3.event.pageX + "px")
-                    .style("top", d3.event.pageY + "px");
-
-            })
-            .on("mousemove", function (d) {
-                tooltip
-                    .style("left", d3.event.pageX + "px")
-                    .style("top", d3.event.pageY + "px");
-
-            })
-            .on("mouseout", function (d) {
-                d3.select(this).transition().duration(100)
-                    .attr("r", cfg.radius);
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            })
-
         var pr = g.selectAll(".project")
             .data(cfg.projects)
             .enter().append("g")
@@ -139,6 +96,60 @@ var ScoreLineChart = {
             .style("stroke", function (d) {
                 return cfg.color(d)
             })
+
+        var pts = g.selectAll(".dot")
+            .data(data)
+            .enter()
+            .append("g")
+
+        pts.append("circle")
+            .attr("class", "dot")
+            .attr("cx", function (d) {
+                return x(d.week)
+            })
+            .attr("cy", function (d) {
+                return y(d[key])
+            })
+            .attr("r", cfg.radius)
+            .attr("stroke", function (d) {
+                return cfg.color(d.id)
+            })
+            .attr("fill", function (d) {
+                return cfg.color(d.id)
+            })
+            .style("pointer-events", "none");
+        pts.append("circle")
+            .attr("cx", function (d) {
+                return x(d.week)
+            })
+            .attr("cy", function (d) {
+                return y(d[key])
+            })
+            .attr("r", 6)
+            .attr("stroke", "none")
+            .attr("fill", "#eee")
+            .style("opacity", "0")
+            .on("mouseover", function (d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .8);
+                tooltip.html('<b>' + tick_formats[key](d[key]) + '</b> ' + variation(d, key, weeks, data))
+                    .style("left", d3.event.pageX + "px")
+                    .style("top", d3.event.pageY + "px");
+
+            })
+            .on("mousemove", function (d) {
+                tooltip
+                    .style("left", d3.event.pageX + "px")
+                    .style("top", d3.event.pageY + "px");
+
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
 
     }
 };

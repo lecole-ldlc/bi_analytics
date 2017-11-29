@@ -334,10 +334,10 @@ function load_data(data_full) {
 function refresh_charts() {
     // Draw barcharts
 
-
     var w = parseInt($("#main_week_select").val());
     var data_f = data.filter(function (d) {
-        return (d.week == w || d.week == w - 1 || d.week == w - 2);
+        //return (d.week == w || d.week == w - 1 || d.week == w - 2);
+        return true;
     });
 
     var weeks = d3.nest().key(function (d) {
@@ -351,18 +351,21 @@ function refresh_charts() {
         weeks: weeks,
     };
 
-    $(".chart_bar").each(function (index) {
-        var key = $(this).attr('data-key');
-        var id = $(this).attr('id');
-        GroupedBarChart.draw("#" + id, data_f, bc_cfg, key);
-    });
-
     var score_cfg = {
         color: color,
         color_text: color_text,
         weeks: weeks,
         week: w,
     };
+
+    $(".chart_bar").each(function (index) {
+        var key = $(this).attr('data-key');
+        var id = $(this).attr('id');
+        //GroupedBarChart.draw("#" + id, data_f, bc_cfg, key);
+        ScoreLineChart.draw("#" + id, data_f, score_cfg, key)
+    });
+
+
     $(".chart_score").each(function (index) {
         var id = $(this).attr('id');
         var key = $(this).attr('data-key');
@@ -390,6 +393,23 @@ function refresh_charts() {
         ScoreStackedBarChart.draw("#" + id, data_f, score_stacked_cfg, parts, coefs);
     });
 
+    $(".chart_stack").each(function (index) {
+        var id = $(this).attr('id');
+        var key = $(this).attr('data-key');
+        if (key === 'rs_community') {
+            parts = ['fb_fa', 'insta_fa', 'tw_fa', 'yt_fa', 'discord_fa'];
+        } else if (key === 'rs_engagement') {
+            parts = ['fb_e', 'insta_e', 'tw_e', 'yt_e', 'discord_e'];
+        } else if (key === 'rs_publications') {
+            parts = ['fb_np', 'insta_np', 'tw_np', 'yt_np', 'discord_np'];
+        } else if (key === 'rs_budget') {
+            parts = ['fb_b', 'insta_b', 'tw_b', 'yt_b', 'discord_b'];
+        } else if (key === 'rs_reach') {
+            parts = ['fb_p', 'insta_p', 'tw_p', 'yt_p', 'discord_p'];
+        }
+        RsStackedBarChart.draw("#" + id, data_f, score_stacked_cfg, parts);
+    });
+
 }
 
 function refresh_scatter() {
@@ -409,8 +429,9 @@ $(function () {
     $.get(URL, function (textString) {
         console.log("data loaded");
         data_full = d3.csvParseRows(textString);
+        console.log(data_full);
         data = load_data(data_full);
-
+        console.log(data);
         scales = {};
         scales_score = {};
         // Compute scales
