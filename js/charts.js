@@ -13,10 +13,10 @@ var radar_dims = {
     'blog_tm': '[Blog] Temps moyen',
     'blog_pv': '[Blog] Pages',
     'blog_np': '[Blog] Publications',
-    'fb_fa': '[FB] Communauté',
-    'fb_p': '[FB] Portée',
-    'fb_e': '[FB] Engagement',
-    'fb_np': '[FB] Publications'
+    'rs_community': '[RS] Communauté',
+    'rs_reach': '[RS] Portée',
+    'rs_engagement': '[RS] Engagement',
+    'rs_publications': '[RS] Publications'
 };
 
 
@@ -26,14 +26,14 @@ var scatter_dims = {
     'blog_tm': '[Blog] Temps moyen',
     'blog_pv': '[Blog] Pages',
     'blog_np': '[Blog] Publications',
-    'fb_fa': '[FB] Communauté',
-    'fb_p': '[FB] Portée',
-    'fb_e': '[FB] Engagement',
-    'fb_np': '[FB] Publications'
+    'rs_community': '[RS] Communauté',
+    'rs_reach': '[RS] Portée',
+    'rs_engagement': '[RS] Engagement',
+    'rs_publications': '[RS] Publications'
 };
 
-scatter_default_x = 'blog_np';
-scatter_default_y = 'blog_vu';
+scatter_default_x = 'blog_vu';
+scatter_default_y = 'rs_publications';
 
 // Color scale for projects
 var color = d3.scaleOrdinal([
