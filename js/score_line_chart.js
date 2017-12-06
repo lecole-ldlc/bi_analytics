@@ -44,9 +44,13 @@ var ScoreLineChart = {
         var nw = max_w - 43;
         // Set domains
         x.domain([42.7, max_w + 1]);
-        y.domain([0, d3.max(data, function (d) {
-            return d[key];
-        })]);
+        if (key == 'blog_vu') {
+            y.domain([0, 350]);
+        } else {
+            y.domain([0, d3.max(data, function (d) {
+                return d[key];
+            })]);
+        }
 
         var weeks = d3.nest().key(function (d) {
             return d.week;
