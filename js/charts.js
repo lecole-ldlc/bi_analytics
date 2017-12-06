@@ -141,6 +141,7 @@ var minimums = {
     'rs_engagement': 0,
     'rs_publications': 0,
     'rs_budget': 0,
+    'rs_reach': 0,
     'blog_score': 0,
     'rs_score': 0,
     'total_score': 0
@@ -229,6 +230,7 @@ function draw_radar(data, e, selected_projects) {
             o = [];
             for (var dim in radar_dims) {
                 o.push({area: radar_dims[dim], value: scales[dim](d[dim])})
+                console.log(dim, d[dim], scales[dim].domain());
             }
             data_t.push(o);
             cols[ind] = parseInt(d.id);
@@ -247,6 +249,7 @@ function draw_radar(data, e, selected_projects) {
     };
 
     if (data_t.length > 0) {
+        console.log(data_t);
         RadarChart.draw(e, data_t, mycfg);
     }
     else {
@@ -474,6 +477,7 @@ $(function () {
             d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.discord_ms + d.yt_v;
             d.rs_publications = d.fb_np + d.tw_np + d.insta_np;
             d.rs_budget = d.fb_b + d.tw_b;
+            d.rs_reach = d.fb_p + d.tw_p + d.insta_p
 
         });
 
@@ -481,6 +485,13 @@ $(function () {
         scales_score['rs_engagement'] = gen_scale('rs_engagement', 0);
         scales_score['rs_publications'] = gen_scale('rs_publications', 0);
         scales_score['rs_budget'] = gen_scale('rs_budget', 0);
+        scales_score['rs_reach'] = gen_scale('rs_reach', 0);
+
+        scales['rs_community'] = gen_scale('rs_community', 0);
+        scales['rs_engagement'] = gen_scale('rs_engagement', 0);
+        scales['rs_publications'] = gen_scale('rs_publications', 0);
+        scales['rs_budget'] = gen_scale('rs_budget', 0);
+        scales['rs_reach'] = gen_scale('rs_reach', 0);
 
         data.forEach(function (d) {
             d.rs_score = (

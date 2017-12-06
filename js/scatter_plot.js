@@ -3,7 +3,7 @@
 var ScatterPlot = {
     draw: function (id, data, options, key_x, key_y) {
         var cfg = {
-            radius: 10,
+            radius: 5,
             w: 400,
             h: 400,
             projects: [1, 2, 3, 4, 5],
