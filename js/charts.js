@@ -102,6 +102,7 @@ var tick_formats = {
     'rs_engagement': d3.format("d"),
     'rs_publications': d3.format("d"),
     'rs_budget': d3.format(".1f"),
+    'rs_reach': d3.format("d"),
     'blog_score': d3.format(".1f"),
     'rs_score': d3.format(".1f"),
     'total_score': d3.format(".1f")
