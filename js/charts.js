@@ -74,7 +74,7 @@ var tick_formats = {
     'blog_vu': d3.format(".0f"),
     'blog_tm': formatMinutes,
     'blog_tr': d3.format(".0f"),
-    'blog_pv': d3.format(".0f"),
+    'blog_pv': d3.format(".2f"),
     'blog_np': d3.format(".0f"),
     'blog_nz': d3.format("d"),
     'fb_fa': d3.format(".0f"),
