@@ -108,7 +108,7 @@ var tick_formats = {
     'total_score': d3.format(".1f")
 };
 
-// This object holds the minimums of each dimension (used in the linear scales)
+// This object holds the minimums of each dimension (used in the linear stacked_scales)
 var minimums = {
     'blog_vu': 0,
     'blog_tm': 0,
@@ -386,8 +386,8 @@ function refresh_charts() {
             parts = ['blog_vu', 'blog_pv', 'blog_tr'];
             coefs = {'blog_vu': 5, 'blog_pv': 3, 'blog_tr': -2};
         } else if (key === 'rs_score') {
-            parts = ['rs_community', 'rs_engagement', 'rs_publication', 'rs_budget']
-            coefs = {'rs_community': 3, 'rs_engagement': 3, 'rs_publication': 2, 'rs_budget': -2};
+            parts = ['rs_community', 'rs_engagement', 'rs_publications', 'rs_budget']
+            coefs = {'rs_community': 3, 'rs_engagement': 3, 'rs_publications': 2, 'rs_budget': -2};
         } else if (key === 'total_score') {
             parts = ['blog_score', 'rs_score'];
             coefs = {'blog_score': 1, 'rs_score': 1};
@@ -434,7 +434,7 @@ $(function () {
         data = load_data(data_full);
         scales = {};
         scales_score = {};
-        // Compute scales
+        // Compute stacked_scales
         for (var dim in tick_formats) {
             scales[dim] = gen_scale(dim);
             scales_score[dim] = gen_scale(dim, 0);
