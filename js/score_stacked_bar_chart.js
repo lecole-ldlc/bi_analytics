@@ -95,13 +95,20 @@ var ScoreStackedBarChart = {
                 }
             });
         });
+        console.log("DATA STACK");
+        data_f.forEach(function(d){
+            parts.forEach(function(key){
+                console.log(key + " " + this.scales[key](d[key]) + " " + this.scales[key](d[key]) * coefs[key]);
+            });
+            console.log("total : " + d.total);
+        });
         data_stack = d3.stack()
             .keys(parts)
             .value(function (d, key) {
-                return coefs[key] > 0 ? self.scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - self.scales[key](d[key]));
+                return coefs[key] > 0 ? this.scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - self.scales[key](d[key]));
             })
             (data_f);
-        console.log(data_stack);
+
         data_stack_p = d3.stack()
             .keys(parts)
             .value(function (d, key) {
