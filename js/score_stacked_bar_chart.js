@@ -153,7 +153,6 @@ var ScoreStackedBarChart = {
                 return '';
             }));
 
-
         g.append("g")
             .selectAll("g")
             .data(data_stack_p)
