@@ -389,7 +389,7 @@ function refresh_charts() {
             coefs = {'blog_vu': 5, 'blog_pv': 3, 'blog_tr': -2};
         } else if (key === 'rs_score') {
             parts = ['rs_community', 'rs_engagement', 'rs_publication', 'rs_budget']
-            coefs = {'rs_community': 2, 'rs_engagement': 3, 'rs_publication': 1, 'rs_budget': -2};
+            coefs = {'rs_community': 3, 'rs_engagement': 3, 'rs_publication': 2, 'rs_budget': -2};
         } else if (key === 'total_score') {
             parts = ['blog_score', 'rs_score'];
             coefs = {'blog_score': 1, 'rs_score': 1};
@@ -495,9 +495,9 @@ $(function () {
 
         data.forEach(function (d) {
             d.rs_score = (
-                2 * Math.max(0, scales_score['rs_community'](d.rs_community)) +
+                3 * Math.max(0, scales_score['rs_community'](d.rs_community)) +
                 3 * Math.max(0, scales_score['rs_engagement'](d.rs_engagement)) +
-                1 * Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
+                2 * Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
                 2 * (1 - Math.max(0, scales_score['rs_budget'](d.rs_budget)))
             ) / 8.0 * 100.0;
             // Do not take blog score into account for Gamer Apaisé

@@ -101,6 +101,7 @@ var ScoreStackedBarChart = {
                 return coefs[key] > 0 ? self.scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - self.scales[key](d[key]));
             })
             (data_f);
+        console.log(data_stack);
         data_stack_p = d3.stack()
             .keys(parts)
             .value(function (d, key) {
