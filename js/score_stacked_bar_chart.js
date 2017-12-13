@@ -16,7 +16,7 @@ var ScoreStackedBarChart = {
     draw: function (id, data, options, parts, coefs) {
         var cfg = {
             w: 350,
-            h: 200,
+            h: 250,
             opacity: 1,
             opacity_prev: 0.7,
             week: 43,
@@ -128,7 +128,7 @@ var ScoreStackedBarChart = {
         y.domain(data_f.map(function (d) {
             return d.id;
         }))
-            .padding(0.1);
+            .padding(0.15);
 
         g.append("g")
             .attr("class", "grid")

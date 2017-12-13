@@ -102,6 +102,10 @@ svg.chart_scatter {
     min-height: 400px;
 }
 
+svg.chart_stacked_score {
+    height: 250px;
+    min-height: 250px;
+}
 .legend_svg svg {
     height: 30px;
     min-height: 30px;
