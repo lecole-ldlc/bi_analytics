@@ -31,7 +31,7 @@ var ScoreStackedBarChart = {
                 'rs_community': 'Communauté',
                 'rs_engagement': 'Engagement',
                 'rs_budget': 'Budget',
-                'rs_publication': 'Publications',
+                'rs_publications': 'Publications',
                 'blog_score': 'Blog',
                 'rs_score': 'Réseaux sociaux',
             }
