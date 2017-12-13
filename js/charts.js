@@ -386,7 +386,7 @@ function refresh_charts() {
         var key = $(this).attr('data-key');
         if (key === 'blog_score') {
             parts = ['blog_vu', 'blog_pv', 'blog_tr'];
-            coefs = {'blog_vu': 5, 'blog_pv': 3, 'blog_tr': -5};
+            coefs = {'blog_vu': 5, 'blog_pv': 3, 'blog_tr': -2};
         } else if (key === 'rs_score') {
             parts = ['rs_community', 'rs_engagement', 'rs_publication', 'rs_budget']
             coefs = {'rs_community': 2, 'rs_engagement': 3, 'rs_publication': 1, 'rs_budget': -2};
@@ -467,12 +467,12 @@ $(function () {
         data.forEach(function (d) {
 
             d.blog_score = (
-                2 * Math.max(0, scales_score['blog_vu'](d.blog_vu))
+                5 * Math.max(0, scales_score['blog_vu'](d.blog_vu))
                 + 3 * Math.max(0, scales_score['blog_pv'](d.blog_pv))
                 // + scales_score['blog_np'](d.blog_np)
                 // + scales_score['blog_nz'](d.blog_nz)
-                + (1 - Math.max(0, scales['blog_tr'](d.blog_tr)))
-            ) / 6.0 * 100.0;
+                + 2 * (1 - Math.max(0, scales['blog_tr'](d.blog_tr)))
+            ) / 10.0 * 100.0;
             d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.discord_m + d.yt_fa + d.blog_nz;
             d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.discord_ms + d.yt_v;
             d.rs_publications = d.fb_np + d.tw_np + d.insta_np;
@@ -507,17 +507,17 @@ $(function () {
         scales_score['rs_score'] = gen_scale('rs_score', 0);
 
         data.forEach(function (d) {
-            if (d.id != '4') {
+            //if (d.id != '4') {
                 d.total_score = (
                     scales_score['blog_score'](d.blog_score)
                     + scales_score['blog_score'](d.rs_score)
                 ) / 2.0 * 100.0;
-            } else {
-                d.total_score = (
-                    1 * scales_score['blog_score'](d.blog_score)
-                    + 2 * scales_score['blog_score'](d.rs_score)
-                ) / 3.0 * 100.0;
-            }
+            //} else {
+            //    d.total_score = (
+            //        1 * scales_score['blog_score'](d.blog_score)
+            //        + 2 * scales_score['blog_score'](d.rs_score)
+            //    ) / 3.0 * 100.0;
+            //}
         });
 
         $('.week_select').val(weeks[weeks.length - 1]);
