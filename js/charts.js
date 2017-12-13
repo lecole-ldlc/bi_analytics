@@ -230,7 +230,6 @@ function draw_radar(data, e, selected_projects) {
             o = [];
             for (var dim in radar_dims) {
                 o.push({area: radar_dims[dim], value: scales[dim](d[dim])})
-                console.log(dim, d[dim], scales[dim].domain());
             }
             data_t.push(o);
             cols[ind] = parseInt(d.id);
@@ -249,7 +248,6 @@ function draw_radar(data, e, selected_projects) {
     };
 
     if (data_t.length > 0) {
-        console.log(data_t);
         RadarChart.draw(e, data_t, mycfg);
     }
     else {
