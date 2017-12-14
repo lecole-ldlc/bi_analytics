@@ -1,4 +1,5 @@
-// Adapted from https://bl.ocks.org/alandunning/4c36eb1abdb248de34c64f5672afd857
+// Forked from https://bl.ocks.org/alandunning/4c36eb1abdb248de34c64f5672afd857
+// Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
 
 var RadarChart = {
     draw: function (id, d, options) {

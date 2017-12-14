@@ -1,4 +1,5 @@
 // Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
+// Inspired by https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
 
 var RsStackedBarChart = {
     compute_total: function (parts, d) {

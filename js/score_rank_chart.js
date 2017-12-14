@@ -1,3 +1,4 @@
+// Forked from https://bl.ocks.org/zmeers/fa66856f87b03e69dff3a61ead646cce
 // Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
 
 var ScoreRankChart = {
@@ -23,7 +24,7 @@ var ScoreRankChart = {
 
             nested_data = d3.nest()
                 .key(function (d) {
-                    return d.week
+                    return d.date_start
                 })
                 .rollup(function (leaves) {
                     leaves.sort(function (a, b) {
@@ -37,10 +38,14 @@ var ScoreRankChart = {
                 })
                 .entries(data_full);
 
+            var dates = nested_data.map(function(d){
+                return d.key;
+            });
+
             var data = [];
             cfg.projects.forEach(function (p) {
                 dat = {project: projects[p - 1]};
-                weeks.forEach(function (w) {
+                dates.forEach(function (w) {
                     dat[w] = 0;
                     var e = nested_data.find(function (a) {
                         return a.key == w;
@@ -78,19 +83,19 @@ var ScoreRankChart = {
                 .attr("width", width)
                 .attr("height", height + cfg.strokeWidth);
 
-            var x = d3.scaleLinear()
+            var x = d3.scaleTime()
                 .range([0, width]);
 
             var y = d3.scaleLinear()
                 .range([0, height]);
 
             var voronoi = d3.voronoi()
-                .x(d => x(d.week))
+                .x(d => x(d.date_start))
                 .y(d => y(d.rank))
                 .extent([[-margin.left / 2, -margin.top / 2], [width + margin.right / 2, height + margin.bottom / 2]]);
 
             var line = d3.line()
-                .x(d => x(d.week))
+                .x(d => x(d.date_start))
                 .y(d => y(d.rank))
                 // Uncomment this to use monotone curve
                 .curve(d3.curveMonotoneX);
@@ -102,7 +107,7 @@ var ScoreRankChart = {
                 for (var prop in d) {
                     if (prop != "project") {
                         if (d[prop] != 0) {
-                            dObj.ranks.push({week: +prop, rank: +d[prop], project: dObj});
+                            dObj.ranks.push({date_start: +prop, rank: +d[prop], project: dObj});
                         }
                     }
                 }
@@ -110,7 +115,7 @@ var ScoreRankChart = {
             });
 
             var xTickNo = parsedData[0].ranks.length;
-            x.domain(d3.extent(parsedData[0].ranks, d => d.week));
+            x.domain(d3.extent(parsedData[0].ranks, d => d.date_start));
 
             cfg.color.domain(data.map(d => d.project));
 
@@ -121,7 +126,6 @@ var ScoreRankChart = {
             var axisMargin = 10;
 
             var xAxis = d3.axisBottom(x)
-                .tickFormat(d3.format("d"))
                 .ticks(xTickNo)
                 .tickSize(0);
 
@@ -185,7 +189,7 @@ var ScoreRankChart = {
                 .data(parsedData.filter(d => highlight.includes(d.project)))
                 .enter().append("text")
                 .attr("class", "end-label")
-                .attr("x", d => x(d.ranks[d.ranks.length - 1].week))
+                .attr("x", d => x(d.ranks[d.ranks.length - 1].date_start))
                 .attr("y", d => y(d.ranks[d.ranks.length - 1].rank))
                 .attr("dx", 20)
                 .attr("dy", cfg.strokeWidth / 2)
@@ -197,7 +201,7 @@ var ScoreRankChart = {
                 .data(parsedData.filter(d => highlight.includes(d.project)))
                 .enter().append("circle")
                 .attr("class", "end-circle")
-                .attr("cx", d => x(d.ranks[d.ranks.length - 1].week))
+                .attr("cx", d => x(d.ranks[d.ranks.length - 1].date_start))
                 .attr("cy", d => y(d.ranks[d.ranks.length - 1].rank))
                 .attr("r", cfg.strokeWidth)
                 .style("fill", d => cfg.color(d.project));

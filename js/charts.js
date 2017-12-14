@@ -1,3 +1,5 @@
+// Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
+
 // This is the URL of the google sheet public export
 var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
 
@@ -425,17 +427,29 @@ $(function () {
             scales[dim] = gen_scale(dim);
             scales_score[dim] = gen_scale(dim, 0);
         }
+        console.log(data);
         // Compxute weeks
         weeks = d3.nest().key(function (d) {
             return d.week;
-        }).entries(data).map(function (d) {
-            return +d.key;
-        });
+        })
+            .entries(data)
+            .map(function (d) {
+                return +d.key;
+            });
 
+        var tf = d3.timeFormat("%d %b %Y")
         weeks.forEach(function (w) {
+            var d = data.find(function(a){
+                return a.week == w;
+            });
+            var v = w;
+            if (d){
+                v = d.date_start;
+            }
+            console.log(w);
             $('.week_select')
-                .append($('<option>', {value: w})
-                    .text(w));
+                .append($('<option>', {value: +w})
+                    .text(tf(v)));
         });
 
         for (var dim in scatter_dims) {

@@ -29,7 +29,7 @@ var ScoreLineChart = {
 
         var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var x = d3.scaleLinear()
+        var x = d3.scaleTime()
             .range([0, width]);
 
         var y = d3.scaleLinear()
@@ -37,7 +37,7 @@ var ScoreLineChart = {
 
         var line = d3.line()
             .x(function (d) {
-                return x(d.week);
+                return x(d.date_start);
             })
             .y(function (d) {
                 return y(d[key]);
@@ -49,7 +49,9 @@ var ScoreLineChart = {
         });
         var nw = max_w;
         // Set domains
-        x.domain([0.5, max_w + 1]);
+        x.domain(d3.extent(data, function(d){
+            return d.date_start;
+        }));
         if (key == 'blog_vu') {
             y.domain([0, 350]);
         } else {
@@ -57,13 +59,6 @@ var ScoreLineChart = {
                 return d[key];
             })]);
         }
-
-        var weeks = d3.nest().key(function (d) {
-            return d.week;
-        }).entries(data).map(function (d) {
-            return +d.key;
-        });
-
 
         g.append("g")
             .attr("class", "grid")
@@ -84,7 +79,10 @@ var ScoreLineChart = {
         g.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(nw + 2).tickFormat(d3.format("d")));
+            .call(d3.axisBottom(x)
+                .ticks(nw + 2)
+                //.tickFormat(d3.format("d"))
+            );
 
         g.append("g")
             .attr("class", "y axis")
@@ -115,7 +113,7 @@ var ScoreLineChart = {
         pts.append("circle")
             .attr("class", "dot")
             .attr("cx", function (d) {
-                return x(d.week)
+                return x(d.date_start)
             })
             .attr("cy", function (d) {
                 return y(d[key])
@@ -130,7 +128,7 @@ var ScoreLineChart = {
             .style("pointer-events", "none");
         pts.append("circle")
             .attr("cx", function (d) {
-                return x(d.week)
+                return x(d.date_start)
             })
             .attr("cy", function (d) {
                 return y(d[key])
