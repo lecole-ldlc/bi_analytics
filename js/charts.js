@@ -93,9 +93,6 @@ var tick_formats = {
     'insta_e': d3.format(".0f"),
     'insta_b': d3.format(".0s"),
     'insta_np': d3.format("d"),
-    'discord_m': d3.format(".0s"),
-    'discord_ms': d3.format(".0s"),
-    'discord_v': d3.format(".0s"),
     'yt_fa': d3.format(".0s"),
     'yt_v': d3.format(".0s"),
     'yt_t': d3.format(".0s"),
@@ -132,9 +129,6 @@ var minimums = {
     'insta_e': 0,
     'insta_b': 0,
     'insta_np': 0,
-    'discord_m': 0,
-    'discord_ms': 0,
-    'discord_v': 0,
     'yt_fa': 0,
     'yt_v': 0,
     'yt_t': 0,
@@ -284,7 +278,7 @@ function load_data(data_full) {
             i = 3;
             data.push({
                 'id': d[i++],
-                'week': +d[i++],
+                'week': +d[i++] - 42,
                 'date_start': moment(d[i++], 'DD/MM/YYYY'),
                 'date_end': moment(d[i++], 'DD/MM/YYYY'),
                 'blog_vu': +d[i++].replace(',', '.'),
@@ -308,9 +302,6 @@ function load_data(data_full) {
                 'insta_e': +d[i++].replace(',', '.'),
                 'insta_b': +d[i++].replace(',', '.'),
                 'insta_np': +d[i++].replace(',', '.'),
-                'discord_m': +d[i++].replace(',', '.'),
-                'discord_ms': +d[i++].replace(',', '.'),
-                'discord_v': +d[i++].replace(',', '.'),
                 'yt_fa': +d[i++].replace(',', '.'),
                 'yt_v': +d[i++].replace(',', '.'),
                 'yt_t': +d[i++].replace(',', '.'),
@@ -394,15 +385,15 @@ function refresh_charts() {
         var id = $(this).attr('id');
         var key = $(this).attr('data-key');
         if (key === 'rs_community') {
-            parts = ['fb_fa', 'insta_fa', 'tw_fa', 'yt_fa', 'discord_fa'];
+            parts = ['fb_fa', 'insta_fa', 'tw_fa', 'yt_fa'];
         } else if (key === 'rs_engagement') {
-            parts = ['fb_e', 'insta_e', 'tw_e', 'yt_e', 'discord_e'];
+            parts = ['fb_e', 'insta_e', 'tw_e', 'yt_e'];
         } else if (key === 'rs_publications') {
-            parts = ['fb_np', 'insta_np', 'tw_np', 'yt_np', 'discord_np'];
+            parts = ['fb_np', 'insta_np', 'tw_np', 'yt_np'];
         } else if (key === 'rs_budget') {
-            parts = ['fb_b', 'insta_b', 'tw_b', 'yt_b', 'discord_b'];
+            parts = ['fb_b', 'insta_b', 'tw_b', 'yt_b'];
         } else if (key === 'rs_reach') {
-            parts = ['fb_p', 'insta_p', 'tw_p', 'yt_p', 'discord_p'];
+            parts = ['fb_p', 'insta_p', 'tw_p', 'yt_p'];
         }
         RsStackedBarChart.draw("#" + id, data_f, score_stacked_cfg, parts);
     });
@@ -466,8 +457,8 @@ $(function () {
                 // + scales_score['blog_nz'](d.blog_nz)
                 + 2 * (1 - Math.max(0, scales['blog_tr'](d.blog_tr)))
             ) / 10.0 * 100.0;
-            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.discord_m + d.yt_fa + d.blog_nz;
-            d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.discord_ms + d.yt_v;
+            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.yt_fa + d.blog_nz;
+            d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.yt_v;
             d.rs_publications = d.fb_np + d.tw_np + d.insta_np;
             d.rs_budget = d.fb_b + d.tw_b;
             d.rs_reach = d.fb_p + d.tw_p + d.insta_p

@@ -47,9 +47,9 @@ var ScoreLineChart = {
         var max_w = d3.max(data, function (d) {
             return +d.week
         });
-        var nw = max_w - 43;
+        var nw = max_w;
         // Set domains
-        x.domain([42.7, max_w + 1]);
+        x.domain([0.5, max_w + 1]);
         if (key == 'blog_vu') {
             y.domain([0, 350]);
         } else {
