@@ -6,6 +6,7 @@ var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé',
 
 // Projects short names (used in tooltips)
 var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
+var weeks = []
 
 // Dimensions used in the spider/radar chart, with associated name
 var radar_dims = {
@@ -342,12 +343,6 @@ function refresh_charts() {
         return true;
     });
 
-    var weeks = d3.nest().key(function (d) {
-        return d.week;
-    }).entries(data_f).map(function (d) {
-        return +d.key;
-    });
-
     var bc_cfg = {
         color: color,
         weeks: weeks,
@@ -440,7 +435,7 @@ $(function () {
             scales_score[dim] = gen_scale(dim, 0);
         }
         // Compxute weeks
-        var weeks = d3.nest().key(function (d) {
+        weeks = d3.nest().key(function (d) {
             return d.week;
         }).entries(data).map(function (d) {
             return +d.key;
@@ -506,10 +501,10 @@ $(function () {
 
         data.forEach(function (d) {
             //if (d.id != '4') {
-                d.total_score = (
-                    scales_score['blog_score'](d.blog_score)
-                    + scales_score['blog_score'](d.rs_score)
-                ) / 2.0 * 100.0;
+            d.total_score = (
+                scales_score['blog_score'](d.blog_score)
+                + scales_score['blog_score'](d.rs_score)
+            ) / 2.0 * 100.0;
             //} else {
             //    d.total_score = (
             //        1 * scales_score['blog_score'](d.blog_score)
@@ -531,6 +526,15 @@ $(function () {
             var key = $(this).attr('data-key');
             var id = $(this).attr('id');
             ScoreLineChart.draw("#" + id, data, score_hist_cfg, key);
+        });
+        var score_rank_cfg = {
+            color: color,
+            weeks: weeks,
+        };
+        $(".chart_rank_score").each(function (index) {
+            var key = $(this).attr('data-key');
+            var id = $(this).attr('id');
+            ScoreRankChart.draw("#" + id, data, score_rank_cfg, key);
         });
 
     });

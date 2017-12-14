@@ -74,8 +74,6 @@ Modules - reusable parts of our design
     }
 }
 
-
-
 body {
     min-height: 75rem;
     padding-top: 4.5rem;
@@ -83,18 +81,20 @@ body {
 }
 
 svg.chart {
-    height: 200px;
-    min-height: 200px;
+    height: 250px;
+    min-height: 250px;
+        width: 350px;
+    min-width: 350px;
 }
 
 svg.chart_score {
-    height: 200px;
-    min-height: 200px;
+    height: 250px;
+    min-height: 250px;
 }
 
 svg.chart_score_hist {
-    height: 200px;
-    min-height: 200px;
+    height: 250px;
+    min-height: 250px;
 }
 
 svg.chart_scatter {
@@ -106,6 +106,12 @@ svg.chart_stacked_score {
     height: 250px;
     min-height: 250px;
 }
+
+svg.chart_rank_score {
+    height: 250px;
+    min-height: 250px;
+}
+
 .legend_svg svg {
     height: 30px;
     min-height: 30px;
@@ -174,14 +180,15 @@ nav ul a:hover {
     shape-rendering: crispEdges;
 
 }
+
 .grid line {
-  stroke: lightgrey;
-  stroke-opacity: 0.7;
-  shape-rendering: crispEdges;
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
 }
 
 .grid path {
-  stroke-width: 0;
+    stroke-width: 0;
 }
 
 .axis_label {
@@ -198,7 +205,7 @@ nav ul a:hover {
     position: absolute;
     display: none;
     min-width: 100px;
-    font-size: 11px;
+    font-size: 10px;
     height: auto;
     background: none repeat scroll 0 0 #999;
     padding: 3px 7px 3px 7px;
@@ -232,7 +239,62 @@ nav ul a:hover {
 }
 
 path.line_score {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+.chart_rank_score .x-axis path, .chart_rank_score .y-axis path {
+    display: none;
+}
+
+.chart_rank_score .rank-line {
+    fill: none;
+    stroke: black;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.chart_rank_score .start-dot, .chart_rank_score .end-dot {
+    fill: grey;
+}
+
+.chart_rank_score .tooltip text {
+    font-size: 10px;
+    fill: black;
+}
+
+.chart_rank_score .x-axis text {
+    font-size: 10px;
+}
+
+.chart_rank_score .y-axis text {
+}
+
+.chart_rank_score text {
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    opacity: 0.7;
+    font-size: 10px;
+}
+
+.chart_rank_score .y-label {
+    fill: black;
+    font-size: 10px;
+}
+
+.chart_rank_score .voronoi path {
+    fill: none;
+    pointer-events: all;
+}
+
+.chart_rank_score .grid-line {
+    stroke: black;
+    opacity: 0.2;
+    stroke-dasharray: 2, 2;
+}
+
+.chart_rank_score .end-label {
+    font-size: 10px;
+    fill: black;
+    fill-opacity: 0.8;
 }

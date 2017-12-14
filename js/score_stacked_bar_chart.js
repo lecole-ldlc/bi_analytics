@@ -46,11 +46,19 @@ var ScoreStackedBarChart = {
         }
 
         $(id).html('');
-        var svg = d3.select(id),
-            margin = {top: 20, right: 20, bottom: 30, left: 30},
+
+
+        var margin = {top: 10, right: 10, bottom: 10, left: 10},
             width = +cfg.w - margin.left - margin.right,
-            height = +cfg.h - margin.top - margin.bottom,
-            g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            height = +cfg.h - margin.top - margin.bottom;
+
+        var svg = d3.select(id)
+            .attr("width", width)
+            .attr("height", height);
+
+        var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        d3.select(id);
 
         var x = d3.scaleLinear()
             .range([0, width]);

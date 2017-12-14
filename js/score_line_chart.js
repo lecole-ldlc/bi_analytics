@@ -4,7 +4,7 @@ var ScoreLineChart = {
     draw: function (id, data, options, key) {
         var cfg = {
             w: 350,
-            h: 200,
+            h: 250,
             radius: 3,
             projects: [1, 2, 3, 4, 5],
             color: d3.scaleOrdinal(d3.schemeCategory10)
@@ -18,11 +18,16 @@ var ScoreLineChart = {
             }
         }
         $(id).html('');
-        var svg = d3.select(id),
-            margin = {top: 10, right: 20, bottom: 30, left: 45},
+
+        var margin = {top: 10, right: 20, bottom: 20, left: 35},
             width = +cfg.w - margin.left - margin.right,
-            height = +cfg.h - margin.top - margin.bottom,
-            g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            height = +cfg.h - margin.top - margin.bottom;
+
+        var svg = d3.select(id)
+            .attr("width", width)
+            .attr("height", height);
+
+        var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var x = d3.scaleLinear()
             .range([0, width]);
