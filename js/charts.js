@@ -2,7 +2,7 @@
 var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
 
 // Projects names
-var projects = ['Paye ta planche', 'Acthulhu', 'Red Nugget', 'Au gamer Apaisé', 'La planche a repasser'];
+var projects = ['Paye ta planche', 'Acthulhu', 'RedNugget', 'Au gamer Apaisé', 'La planche a repasser'];
 
 // Projects short names (used in tooltips)
 var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
@@ -40,7 +40,7 @@ scatter_default_y = 'rs_publications';
 var color = d3.scaleOrdinal([
     '#555d68', // Paye ta planche
     '#3EAD4E', // Acthulu
-    '#F43131', // Red nugget
+    '#F43131', // Rednugget
     'rgb(255, 127, 14)', // Au gamer apaisé
     'rgb(148, 103, 189)' // La planche à repasser
 ]);
