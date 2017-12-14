@@ -41,7 +41,8 @@ var ScoreLineChart = {
             })
             .y(function (d) {
                 return y(d[key]);
-            });
+            })
+            .curve(d3.curveMonotoneX);
 
         var max_w = d3.max(data, function (d) {
             return +d.week

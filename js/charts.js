@@ -350,7 +350,7 @@ function refresh_charts() {
 
     var score_cfg = {
         color: color,
-        color_text: color_text,
+        //color_text: color_text,
         weeks: weeks,
         week: w,
     };

@@ -23,7 +23,7 @@ var ScoreStackedBarChart = {
             weeks: [43],
             projects: [1, 2, 3, 4, 5],
             color: d3.scaleOrdinal(d3.schemeCategory10),
-            color_text: d3.scaleOrdinal(["#eee"]),
+            color_text: d3.scaleOrdinal(["#ddd"]),
             metric_labels: {
                 'blog_pv': 'Pages vues',
                 'blog_vu': 'Visiteurs',

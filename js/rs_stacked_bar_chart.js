@@ -11,14 +11,14 @@ var RsStackedBarChart = {
     draw: function (id, data, options, parts) {
         var cfg = {
             w: 350,
-            h: 200,
+            h: 250,
             opacity: 1,
             opacity_prev: 0.75,
             week: 43,
             weeks: [43],
             projects: [1, 2, 3, 4, 5],
             color: d3.scaleOrdinal(d3.schemeCategory10),
-            color_text: d3.scaleOrdinal(["#222"]),
+            color_text: d3.scaleOrdinal(["#ddd"]),
             metric_labels: {
                 'fb': 'Facebook',
                 'insta': 'Instagram',
