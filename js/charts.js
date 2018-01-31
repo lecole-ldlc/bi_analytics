@@ -446,7 +446,6 @@ $(function () {
             if (d){
                 v = d.date_start;
             }
-            console.log(w);
             $('.week_select')
                 .append($('<option>', {value: +w})
                     .text(tf(v)));
