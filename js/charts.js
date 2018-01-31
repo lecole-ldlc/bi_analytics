@@ -183,7 +183,7 @@ function variation(d, key, weeks, data) {
 function legend(elem) {
     var legendRectSize = 15;
     var svg = d3.select('#' + elem).append('svg')
-        .attr('width', 960)
+        .attr('width', 600)
         .attr('height', 30);
 
     var legend = svg.selectAll('.legend')
@@ -192,7 +192,7 @@ function legend(elem) {
         .append('g')
         .attr('class', 'legend')
         .attr('transform', function (d, i) {
-            var horz = 0 + i * 180 + 10;
+            var horz = 0 + i * 110 + 10;
             var vert = 0;
             return 'translate(' + horz + ',' + vert + ')';
         });

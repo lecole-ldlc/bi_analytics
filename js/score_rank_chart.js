@@ -136,7 +136,7 @@ var ScoreRankChart = {
             var xGroup = svg.append("g");
             var xAxisElem = xGroup.append("g")
                 .attr("transform", "translate(" + [0, height + axisMargin * 1.2] + ")")
-                .attr("class", "x-axis")
+                .attr("class", "x-axis axis-time")
                 .call(xAxis);
 
             xGroup.append("g").selectAll("line")

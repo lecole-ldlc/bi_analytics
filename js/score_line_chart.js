@@ -19,7 +19,7 @@ var ScoreLineChart = {
         }
         $(id).html('');
 
-        var margin = {top: 10, right: 20, bottom: 20, left: 35},
+        var margin = {top: 10, right: 20, bottom: 25, left: 35},
             width = +cfg.w - margin.left - margin.right,
             height = +cfg.h - margin.top - margin.bottom;
 
@@ -49,7 +49,7 @@ var ScoreLineChart = {
         });
         var nw = max_w;
         // Set domains
-        x.domain(d3.extent(data, function(d){
+        x.domain(d3.extent(data, function (d) {
             return d.date_start;
         }));
         if (key == 'blog_vu') {
@@ -77,10 +77,10 @@ var ScoreLineChart = {
             );
 
         g.append("g")
-            .attr("class", "x axis")
+            .attr("class", "x axis axis-time")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x)
-                .ticks(nw + 2)
+                    .ticks(nw + 2)
                 //.tickFormat(d3.format("d"))
             );
 
@@ -126,6 +126,7 @@ var ScoreLineChart = {
                 return cfg.color(d.id)
             })
             .style("pointer-events", "none");
+
         pts.append("circle")
             .attr("cx", function (d) {
                 return x(d.date_start)
