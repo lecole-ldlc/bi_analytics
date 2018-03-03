@@ -20,17 +20,15 @@ var ScoreRankChart = {
                 }
             }
             $(id).html('');
-
-
             nested_data = d3.nest()
                 .key(function (d) {
-                    return d.date_start
+                    return d.date_end
                 })
                 .rollup(function (leaves) {
                     leaves.sort(function (a, b) {
                         return d3.descending(a[key], b[key]);
                     });
-                    var dat = []
+                    var dat = [];
                     leaves.forEach(function (d, i) {
                         dat.push({id: d.id, rank: i + 1})
                     });
@@ -38,10 +36,9 @@ var ScoreRankChart = {
                 })
                 .entries(data_full);
 
-            var dates = nested_data.map(function(d){
+            var dates = nested_data.map(function (d) {
                 return d.key;
             });
-
             var data = [];
             cfg.projects.forEach(function (p) {
                 dat = {project: projects[p - 1]};
@@ -61,7 +58,6 @@ var ScoreRankChart = {
                 });
                 data.push(dat);
             });
-
             var margin = {top: 10, right: 10, bottom: 30, left: 30};
             var width = +cfg.w - margin.left - margin.right,
                 height = +cfg.h - margin.top - margin.bottom;
@@ -90,32 +86,46 @@ var ScoreRankChart = {
                 .range([0, height]);
 
             var voronoi = d3.voronoi()
-                .x(d => x(d.date_start))
-                .y(d => y(d.rank))
+                .x(function (d) {
+                    return x(d.date_end);
+                })
+                .y(function (d) {
+                    return y(d.rank);
+                })
                 .extent([[-margin.left / 2, -margin.top / 2], [width + margin.right / 2, height + margin.bottom / 2]]);
 
             var line = d3.line()
-                .x(d => x(d.date_start))
-                .y(d => y(d.rank))
+                .x(function (d) {
+                    return x(d.date_end);
+                })
+                .y(function (d) {
+                    return y(d.rank);
+                })
                 // Uncomment this to use monotone curve
                 .curve(d3.curveMonotoneX);
 
 
             var parsedData = [];
-            data.forEach((d) => {
+            data.forEach(function (d) {
                 var dObj = {project: d.project, ranks: []};
                 for (var prop in d) {
                     if (prop != "project") {
                         if (d[prop] != 0) {
-                            dObj.ranks.push({date_start: +prop, rank: +d[prop], project: dObj});
+                            dObj.ranks.push({date_end: +prop, rank: +d[prop], project: dObj});
                         }
                     }
                 }
                 parsedData.push(dObj);
             });
+            var xTickNo = parsedData[1].ranks.length;
+            var max_date = d3.max(parsedData, function (d) {
+                return d3.max(d.ranks, function (d) {
+                    return dd.date_end;
+                })
+            });
+            var min_date = d3.extent(parsedData[0].ranks, d => d.date_end)[0];
 
-            var xTickNo = parsedData[0].ranks.length;
-            x.domain(d3.extent(parsedData[0].ranks, d => d.date_start));
+            x.domain([min_date, max_date]);
 
             cfg.color.domain(data.map(d => d.project));
 
@@ -126,8 +136,9 @@ var ScoreRankChart = {
             var axisMargin = 10;
 
             var xAxis = d3.axisBottom(x)
-                .ticks(xTickNo)
-                .tickSize(0);
+                .ticks(6)
+                .tickSize(0)
+                .tickFormat(d3.timeFormat("%b %d"));
 
             var yAxis = d3.axisLeft(y)
                 .ticks(ranks)
@@ -189,10 +200,10 @@ var ScoreRankChart = {
                 .data(parsedData.filter(d => highlight.includes(d.project)))
                 .enter().append("text")
                 .attr("class", "end-label")
-                .attr("x", d => x(d.ranks[d.ranks.length - 1].date_start))
+                .attr("x", d => x(d.ranks[d.ranks.length - 1].date_end))
                 .attr("y", d => y(d.ranks[d.ranks.length - 1].rank))
                 .attr("dx", 20)
-                .attr("dy", cfg.strokeWidth / 2)
+                .attr("dy", cfg.strokeWidth / 2);
             //.text(d => d.project);
 
 
@@ -201,7 +212,7 @@ var ScoreRankChart = {
                 .data(parsedData.filter(d => highlight.includes(d.project)))
                 .enter().append("circle")
                 .attr("class", "end-circle")
-                .attr("cx", d => x(d.ranks[d.ranks.length - 1].date_start))
+                .attr("cx", d => x(d.ranks[d.ranks.length - 1].date_end))
                 .attr("cy", d => y(d.ranks[d.ranks.length - 1].rank))
                 .attr("r", cfg.strokeWidth)
                 .style("fill", d => cfg.color(d.project));

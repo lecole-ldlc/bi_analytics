@@ -37,7 +37,7 @@ var ScoreLineChart = {
 
         var line = d3.line()
             .x(function (d) {
-                return x(d.date_start);
+                return x(d.date_end);
             })
             .y(function (d) {
                 return y(d[key]);
@@ -50,7 +50,7 @@ var ScoreLineChart = {
         var nw = max_w;
         // Set domains
         x.domain(d3.extent(data, function (d) {
-            return d.date_start;
+            return d.date_end;
         }));
         if (key == 'blog_vu') {
             y.domain([0, 350]);
@@ -80,8 +80,8 @@ var ScoreLineChart = {
             .attr("class", "x axis axis-time")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x)
-                    .ticks(nw + 2)
-                //.tickFormat(d3.format("d"))
+                .ticks(6)
+                .tickFormat(d3.timeFormat("%b %d"))
             );
 
         g.append("g")
@@ -91,7 +91,7 @@ var ScoreLineChart = {
         var pr = g.selectAll(".project")
             .data(cfg.projects)
             .enter().append("g")
-            .attr('class', "project")
+            .attr('class', "project");
 
         pr.append("path")
             .attr('class', 'line_score')
@@ -113,7 +113,7 @@ var ScoreLineChart = {
         pts.append("circle")
             .attr("class", "dot")
             .attr("cx", function (d) {
-                return x(d.date_start)
+                return x(d.date_end)
             })
             .attr("cy", function (d) {
                 return y(d[key])
@@ -129,7 +129,7 @@ var ScoreLineChart = {
 
         pts.append("circle")
             .attr("cx", function (d) {
-                return x(d.date_start)
+                return x(d.date_end)
             })
             .attr("cy", function (d) {
                 return y(d[key])
