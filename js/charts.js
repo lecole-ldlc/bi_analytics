@@ -1,14 +1,7 @@
 // Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
 
-// This is the URL of the google sheet public export
-var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
 
-// Projects names
-var projects = ['Paye ta planche', 'Acthulhu', 'RedNugget', 'Au gamer Apaisé', 'La planche a repasser'];
-
-// Projects short names (used in tooltips)
-var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
-var weeks = []
+var weeks = [];
 
 // Dimensions used in the spider/radar chart, with associated name
 var radar_dims = {
@@ -272,45 +265,80 @@ function gen_scale(key, min) {
         .range([0, 1])
 }
 
-function load_data(data_full) {
+function load_data(data_full, year) {
     data = [];
     data_full.forEach(function (d) {
         dh = parseInt(d[7], 10);
         if (!isNaN(dh)) {
             i = 3;
-            data.push({
-                'id': d[i++],
-                'week': +d[i++] - 42,
-                'date_start': moment(d[i++], 'DD/MM/YYYY'),
-                'date_end': moment(d[i++], 'DD/MM/YYYY'),
-                'blog_vu': +d[i++].replace(',', '.'),
-                'blog_tm': +d[i++].replace(',', '.'),
-                'blog_tr': +(d[i++].replace('%', '').replace(',', '.')),
-                'blog_pv': +d[i++].replace(',', '.'),
-                'blog_np': +d[i++].replace(',', '.'),
-                'blog_nz': +d[i++].replace(',', '.'),
-                'fb_fa': +d[i++].replace(',', '.'),
-                'fb_p': +d[i++].replace(',', '.'),
-                'fb_e': +d[i++].replace(',', '.'),
-                'fb_b': +d[i++].replace(',', '.'),
-                'fb_np': +d[i++].replace(',', '.'),
-                'tw_fa': +d[i++].replace(',', '.'),
-                'tw_p': +d[i++].replace(',', '.'),
-                'tw_e': +d[i++].replace(',', '.'),
-                'tw_b': +d[i++].replace(',', '.'),
-                'tw_np': +d[i++].replace(',', '.'),
-                'insta_fa': +d[i++].replace(',', '.'),
-                'insta_p': +d[i++].replace(',', '.'),
-                'insta_e': +d[i++].replace(',', '.'),
-                'insta_b': +d[i++].replace(',', '.'),
-                'insta_np': +d[i++].replace(',', '.'),
-                'yt_fa': +d[i++].replace(',', '.'),
-                'yt_v': +d[i++].replace(',', '.'),
-                'yt_t': +d[i++].replace(',', '.'),
-                'blog_score': 0,
-                'rs_score': 0,
-                'total_score': 0
-            });
+            if (year == 2018) {
+                data.push({
+                    'id': d[i++],
+                    'week': +d[i++] - 42,
+                    'date_start': moment(d[i++], 'DD/MM/YYYY'),
+                    'date_end': moment(d[i++], 'DD/MM/YYYY'),
+                    'blog_vu': +d[i++].replace(',', '.'),
+                    'blog_tm': +d[i++].replace(',', '.'),
+                    'blog_tr': +(d[i++].replace('%', '').replace(',', '.')),
+                    'blog_pv': +d[i++].replace(',', '.'),
+                    'blog_np': +d[i++].replace(',', '.'),
+                    'fb_fa': +d[i++].replace(',', '.'),
+                    'fb_p': +d[i++].replace(',', '.'),
+                    'fb_e': +d[i++].replace(',', '.'),
+                    'fb_b': +d[i++].replace(',', '.'),
+                    'fb_np': +d[i++].replace(',', '.'),
+                    'tw_fa': +d[i++].replace(',', '.'),
+                    'tw_p': +d[i++].replace(',', '.'),
+                    'tw_e': +d[i++].replace(',', '.'),
+                    'tw_b': +d[i++].replace(',', '.'),
+                    'tw_np': +d[i++].replace(',', '.'),
+                    'insta_fa': +d[i++].replace(',', '.'),
+                    'insta_p': +d[i++].replace(',', '.'),
+                    'insta_e': +d[i++].replace(',', '.'),
+                    'insta_b': +d[i++].replace(',', '.'),
+                    'insta_np': +d[i++].replace(',', '.'),
+                    'yt_fa': +d[i++].replace(',', '.'),
+                    'yt_v': +d[i++].replace(',', '.'),
+                    'yt_t': +d[i++].replace(',', '.'),
+                    'blog_score': 0,
+                    'rs_score': 0,
+                    'total_score': 0
+                });
+            } else if (year == 2017) {
+                data.push({
+                    'id': d[i++],
+                    'week': +d[i++] - 42,
+                    'date_start': moment(d[i++], 'DD/MM/YYYY'),
+                    'date_end': moment(d[i++], 'DD/MM/YYYY'),
+                    'blog_vu': +d[i++].replace(',', '.'),
+                    'blog_tm': +d[i++].replace(',', '.'),
+                    'blog_tr': +(d[i++].replace('%', '').replace(',', '.')),
+                    'blog_pv': +d[i++].replace(',', '.'),
+                    'blog_np': +d[i++].replace(',', '.'),
+                    'blog_nz': +d[i++].replace(',', '.'),
+                    'fb_fa': +d[i++].replace(',', '.'),
+                    'fb_p': +d[i++].replace(',', '.'),
+                    'fb_e': +d[i++].replace(',', '.'),
+                    'fb_b': +d[i++].replace(',', '.'),
+                    'fb_np': +d[i++].replace(',', '.'),
+                    'tw_fa': +d[i++].replace(',', '.'),
+                    'tw_p': +d[i++].replace(',', '.'),
+                    'tw_e': +d[i++].replace(',', '.'),
+                    'tw_b': +d[i++].replace(',', '.'),
+                    'tw_np': +d[i++].replace(',', '.'),
+                    'insta_fa': +d[i++].replace(',', '.'),
+                    'insta_p': +d[i++].replace(',', '.'),
+                    'insta_e': +d[i++].replace(',', '.'),
+                    'insta_b': +d[i++].replace(',', '.'),
+                    'insta_np': +d[i++].replace(',', '.'),
+                    'yt_fa': +d[i++].replace(',', '.'),
+                    'yt_v': +d[i++].replace(',', '.'),
+                    'yt_t': +d[i++].replace(',', '.'),
+                    'blog_score': 0,
+                    'rs_score': 0,
+                    'total_score': 0
+                });
+            }
         }
     });
 
@@ -419,7 +447,7 @@ $(function () {
     $.get(URL, function (textString) {
         console.log("data loaded");
         data_full = d3.csvParseRows(textString);
-        data = load_data(data_full);
+        data = load_data(data_full, YEAR);
         scales = {};
         scales_score = {};
         // Compute stacked_scales
@@ -439,11 +467,11 @@ $(function () {
 
         var tf = d3.timeFormat("%d %b %Y")
         weeks.forEach(function (w) {
-            var d = data.find(function(a){
+            var d = data.find(function (a) {
                 return a.week == w;
             });
             var v = w;
-            if (d){
+            if (d) {
                 v = d.date_start;
             }
             $('.week_select')

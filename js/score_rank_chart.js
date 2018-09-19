@@ -120,7 +120,7 @@ var ScoreRankChart = {
             var xTickNo = parsedData[1].ranks.length;
             var max_date = d3.max(parsedData, function (d) {
                 return d3.max(d.ranks, function (d) {
-                    return dd.date_end;
+                    return d.date_end;
                 })
             });
             var min_date = d3.extent(parsedData[0].ranks, d => d.date_end)[0];

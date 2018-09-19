@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Dataviz KPI Projet BI 2018">
+    <meta name="description" content="Dataviz KPI Projet BI 2017">
     <meta name="author" content="Antoine Scherrer">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32"/>
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16"/>
 
-    <title>L'École LDLC, Be Influent 2018 analytics</title>
+    <title>L'École LDLC, Be Influent 2017 analytics</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -25,7 +25,7 @@
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#home">BI 2018</a>
+    <a class="navbar-brand" href="#home">BI 2017</a>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -46,11 +46,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="#youtube">Youtube</a>
             </li>
+            <!--
             <li class="nav-item">
-                <a class="nav-link" href="#help">Aide</a>
+                <a class="nav-link" href="#radar_title">Radar</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="index_2017.html">2017</a>
+                <a class="nav-link" href="#scatter_title">Scatter</a>
+            </li>
+            -->
+            <li class="nav-item">
+                <a class="nav-link" href="#help">Aide</a>
             </li>
         </ul>
         <form class="form-inline">
@@ -154,6 +159,10 @@
         <div class="col-xl-4 col-lg-6 col-md-12">
             <h4>Publications</h4>
             <svg class="chart chart_bar" data-key="blog_np" id="blog_np_bar"></svg>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12">
+            <h4>Newsletter</h4>
+            <svg class="chart chart_bar" data-key="blog_nz" id="blog_nz_bar"></svg>
         </div>
 
     </div>
@@ -467,15 +476,14 @@
 </footer>
 
 <script type="text/javascript">
-    var YEAR = 2018;
-    // This is the URL of the google sheet public export
-    var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kQlGURa9SbVBntw0lnCXfuTtmwz6K2BtQf60qQhw4vcRC5k_2sQ5WeByfuVuFqL_-dPocAs5XTBI/pub?gid=0&single=true&output=csv';
-
     // Projects names
-    var projects = ['Paye ta planche', 'Acthulhu', 'RedNugget', 'Au gamer Apaisé', 'La planche a repasser'];
+    var YEAR = 2018;
+    var projects = ['Le bon pelo', '2', '3', '4', '5'];
 
     // Projects short names (used in tooltips)
-    var projects_short = ['PTP', 'ATL', 'RN', 'AGA', 'LPAR'];
+    var projects_short = ['LBP', '2', '3', '4', '5'];
+
+    var URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2m4zHV6_3opJl0GwBk2KYynzm2Fjs4MWdtPL5ku7ss7oc1b1CA64667BAfpPDnAd5noyUUnu9x12c/pub?gid=0&single=true&output=csv';
 </script>
 
 <!-- Libraries -->
@@ -498,6 +506,8 @@
 <script src="js/rs_stacked_bar_chart.js"></script>
 <script src="js/score_rank_chart.js"></script>
 <script src="js/charts.js"></script>
+
+
 
 </body>
 
