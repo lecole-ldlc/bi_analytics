@@ -274,7 +274,7 @@ function load_data(data_full, year) {
             if (year == 2018) {
                 data.push({
                     'id': d[i++],
-                    'week': +d[i++] - 42,
+                    'week': +d[i++] - 39,
                     'date_start': moment(d[i++], 'DD/MM/YYYY'),
                     'date_end': moment(d[i++], 'DD/MM/YYYY'),
                     'blog_vu': +d[i++].replace(',', '.'),
