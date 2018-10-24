@@ -19,6 +19,7 @@ var ScoreRankChart = {
                     }
                 }
             }
+            console.log(key);
             $(id).html('');
             nested_data = d3.nest()
                 .key(function (d) {
@@ -58,6 +59,8 @@ var ScoreRankChart = {
                 });
                 data.push(dat);
             });
+
+            console.log(nested_data)
             var margin = {top: 10, right: 10, bottom: 30, left: 30};
             var width = +cfg.w - margin.left - margin.right,
                 height = +cfg.h - margin.top - margin.bottom;

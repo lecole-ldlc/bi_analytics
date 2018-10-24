@@ -472,7 +472,7 @@ $(function () {
             });
             var v = w;
             if (d) {
-                v = d.date_start;
+                v = d.date_end;
             }
             $('.week_select')
                 .append($('<option>', {value: +w})
@@ -497,8 +497,8 @@ $(function () {
                 // + scales_score['blog_np'](d.blog_np)
                 // + scales_score['blog_nz'](d.blog_nz)
                 + 2 * (1 - Math.max(0, scales['blog_tr'](d.blog_tr)))
-            ) / 10.0 * 100.0;
-            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.yt_fa + d.blog_nz;
+            ) ;
+            d.rs_community = d.fb_fa + d.tw_fa + d.insta_fa + d.yt_fa;
             d.rs_engagement = d.fb_e + d.tw_e + d.insta_e + d.yt_v;
             d.rs_publications = d.fb_np + d.tw_np + d.insta_np;
             d.rs_budget = d.fb_b + d.tw_b;
@@ -524,7 +524,7 @@ $(function () {
                 3 * Math.max(0, scales_score['rs_engagement'](d.rs_engagement)) +
                 2 * Math.max(0, scales_score['rs_publications'](d.rs_publications)) +
                 2 * (1 - Math.max(0, scales_score['rs_budget'](d.rs_budget)))
-            ) / 8.0 * 100.0;
+            ) ;
             // Do not take blog score into account for Gamer Apaisé
         });
 
@@ -536,7 +536,7 @@ $(function () {
             d.total_score = (
                 scales_score['blog_score'](d.blog_score)
                 + scales_score['blog_score'](d.rs_score)
-            ) / 2.0 * 100.0;
+            ) ;
             //} else {
             //    d.total_score = (
             //        1 * scales_score['blog_score'](d.blog_score)

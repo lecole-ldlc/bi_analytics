@@ -1,14 +1,14 @@
 // Author: Antoine Scherrer <antoine.scherrer@lecole-ldlc.com>
 
 var ScoreStackedBarChart = {
-    compute_total: function (parts, coefs, d, stacked_scales) {
+    compute_total: function (parts, coefs, d) {
         total = 0;
         for (var i in parts) {
             key = parts[i];
             if (coefs[key] > 0) {
-                total += coefs[key] * stacked_scales[key](d[key]);
+                total += coefs[key] * scales_score[key](d[key]);
             } else {
-                total += -coefs[key] * (1 - stacked_scales[key](d[key]));
+                total += -coefs[key] * (1 - scales_score[key](d[key]));
             }
         }
         return total;
@@ -66,7 +66,6 @@ var ScoreStackedBarChart = {
         var y = d3.scaleBand()
             .range([height, 0]);
 
-        var stacked_scales = {};
         var self = this;
         data_f = data.filter(function (d) {
             return d.week == cfg.week;
@@ -86,26 +85,18 @@ var ScoreStackedBarChart = {
             return false;
         });
 
-        for (var i in parts) {
-            stacked_scales[parts[i]] = d3.scaleLinear()
-                .domain([0, d3.max(data, function (d) {
-                    return d[parts[i]];
-                })])
-                .range([0, 1]);
-        }
         data_f.forEach(function (d) {
-            d.total = self.compute_total(parts, coefs, d, stacked_scales);
+            d.total = self.compute_total(parts, coefs, d);
         });
         data_f.sort(function (x, y) {
-            return x.total > y.total;
+            return d3.ascending(x.total, y.total);
         });
-
         // Fill up a new array with previous week scores
         data_fp = [];
         data_f.forEach(function (d) {
             data.forEach(function (d2) {
                 if (d2.id == d.id && d2.week == (d.week - 1)) {
-                    d2.total = self.compute_total(parts, coefs, d2, stacked_scales);
+                    d2.total = self.compute_total(parts, coefs, d2);
                     data_fp.push(d2);
                 }
             });
@@ -114,14 +105,14 @@ var ScoreStackedBarChart = {
         data_stack = d3.stack()
             .keys(parts)
             .value(function (d, key) {
-                return coefs[key] > 0 ? stacked_scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - stacked_scales[key](d[key]));
+                return coefs[key] > 0 ? scales_score[key](d[key]) * coefs[key] : -coefs[key] * (1 - scales_score[key](d[key]));
             })
             (data_f);
 
         data_stack_p = d3.stack()
             .keys(parts)
             .value(function (d, key) {
-                return coefs[key] > 0 ? stacked_scales[key](d[key]) * coefs[key] : -coefs[key] * (1 - stacked_scales[key](d[key]));
+                return coefs[key] > 0 ? scales_score[key](d[key]) * coefs[key] : -coefs[key] * (1 - scales_score[key](d[key]));
             })
             (data_fp);
 

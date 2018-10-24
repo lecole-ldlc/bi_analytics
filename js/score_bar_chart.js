@@ -39,7 +39,7 @@ var ScoreBarChart = {
             return !isNaN(d[key]) && d.week == cfg.week;
         });
         data_f.sort(function (x, y) {
-            return x[key] > y[key];
+            return x[key] - y[key];
         });
 
         // Fill up a new array with previous week scores
@@ -140,7 +140,7 @@ var ScoreBarChart = {
             .attr('dy', '8')
             .text(function (d, i) {
                 return (5 - i).toString() + ' : ' + projects[+d.id - 1];
-            })
+            });
 
 
     }
